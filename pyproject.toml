@@ -10,7 +10,7 @@ dependencies = [
     "watchdog>=3.0.0",
     "pymupdf>=1.23.0",
     "python-docx>=1.0.0",
-    "fastmcp>=0.1.0",
+    "fastmcp[http]>=0.1.0",
     "ollama>=0.1.7",
     "pydantic>=2.0.0",
     "asyncio",

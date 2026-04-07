@@ -347,19 +347,9 @@ async def main():
         logger.info("MCP Document Indexer running...")
         logger.info(f"Watching folders: {service.config.watch_folders}")
         logger.info(f"Database path: {service.config.lancedb_path}")
-
-        transport = os.getenv("MCP_TRANSPORT", "stdio").lower()
-
-        if transport == "http":
-            logger.info(f"Starting HTTP MCP server on {os.getenv('MCP_HOST', '0.0.0.0')}:{os.getenv('MCP_PORT', '8000')}/mcp")
-            await mcp.run_http_async(
-                host=os.getenv("MCP_HOST", "0.0.0.0"),
-                port=int(os.getenv("MCP_PORT", "8000")),
-                path="/mcp"
-            )
-        else:
-            # Run the MCP server in stdio mode for Claude Desktop
-            await mcp.run_stdio_async()
+        
+        # Run the MCP server in stdio mode for Claude Desktop
+        await mcp.run_stdio_async()
         
     except KeyboardInterrupt:
         logger.info("Interrupted by user")
