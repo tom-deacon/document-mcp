@@ -221,3 +221,4 @@ logs/
 # uv
 .uv/
 /.claude/worktrees/elastic-rhodes
+/.claude
