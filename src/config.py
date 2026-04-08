@@ -25,7 +25,7 @@ class Config(BaseModel):
         description="Ollama model for document summarization"
     )
     chunk_size: int = Field(
-        default=1000,
+        default=2000,
         description="Size of text chunks in characters"
     )
     chunk_overlap: int = Field(
