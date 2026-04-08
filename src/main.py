@@ -10,6 +10,7 @@ import time
 import os
 import urllib.request
 import urllib.error
+from datetime import datetime
 from pathlib import Path
 from fastmcp import FastMCP
 
@@ -100,41 +101,42 @@ class DocumentIndexerService:
         """Index a single file."""
         try:
             logger.info(f"  → Starting processing: {file_path.name}")
-            
+
             # Check file size
-            file_size_mb = file_path.stat().st_size / (1024 * 1024)
+            file_stats = file_path.stat()
+            file_size_mb = file_stats.st_size / (1024 * 1024)
             if file_size_mb > self.config.max_file_size_mb:
                 logger.warning(f"  → Skipping: File too large ({file_size_mb:.1f}MB > {self.config.max_file_size_mb}MB)")
                 return False
-            
+
+            # Cheap pre-check: compute hash only, skip full parse if unchanged
+            file_hash = self.parser.compute_file_hash(file_path)
+            if await self.indexer.is_document_indexed(str(file_path), file_hash):
+                logger.info(f"  → ⟳ Document unchanged (already indexed)")
+                return False
+
             logger.info(f"  → [1/3] Parsing document ({file_size_mb:.2f}MB)...")
-            
-            # Parse document
+
+            # Full parse (only for new/modified files)
             doc_data = self.parser.parse_file(file_path)
             logger.info(f"  → [1/3] ✓ Parsed: {doc_data['total_chars']:,} chars, {doc_data['num_chunks']} chunks, {doc_data['total_tokens']:,} tokens")
-            
-            # Check if document is already indexed before expensive LLM processing
-            metadata = doc_data['metadata']
-            if await self.indexer.is_document_indexed(metadata['file_path'], metadata['file_hash']):
-                logger.info(f"  → [2/3] ⟳ Document unchanged (already indexed)")
-                return False
-            
-            # Process with LLM (only if not already indexed)
+
+            # Process with LLM
             logger.info(f"  → [2/3] Processing with LLM ({self.config.llm_model})...")
             doc_data = await self.processor.process_document(doc_data)
             logger.info(f"  → [2/3] ✓ Generated summary ({len(doc_data.get('summary', ''))} chars) and {len(doc_data.get('keywords', []))} keywords")
-            
+
             # Index document
             logger.info(f"  → [3/3] Generating embeddings and indexing to LanceDB...")
             success = await self.indexer.index_document(doc_data)
-            
+
             if success:
                 logger.info(f"  → [3/3] ✓ Successfully indexed document with {doc_data['num_chunks']} chunks")
             else:
                 logger.info(f"  → [3/3] ⟳ Document unchanged (already indexed)")
-            
+
             return success
-            
+
         except Exception as e:
             logger.error(f"Error indexing {file_path}: {e}")
             self.indexing_queue.mark_failed(file_path, str(e))
@@ -181,29 +183,49 @@ class DocumentIndexerService:
                 await asyncio.sleep(1)
     
     async def initial_scan(self):
-        """Perform initial scan of watched folders."""
+        """Perform initial scan of watched folders.
+
+        Uses mtime comparison against the index to skip files that haven't
+        changed, so only new or modified files enter the indexing queue.
+        """
         if not self.monitor:
             return
-        
+
         logger.info("Starting initial document scan...")
         existing_files = await self.monitor.scan_existing_files()
-        
-        # Limit initial scan for large folders
-        max_initial_files = int(os.getenv("MAX_INITIAL_FILES", "50"))
-        if len(existing_files) > max_initial_files:
-            logger.warning(f"Found {len(existing_files)} files, limiting initial scan to {max_initial_files} most recent files")
-            logger.info("Set MAX_INITIAL_FILES env var to increase this limit")
-            # Sort by modification time and take most recent
-            existing_files = sorted(existing_files, key=lambda x: x.stat().st_mtime, reverse=True)[:max_initial_files]
-        
-        # Add files to indexing queue with lower priority
-        added_count = 0
+
+        # Bulk-fetch already-indexed file metadata for fast comparison
+        indexed_files = await self.indexer.get_indexed_files()
+        logger.info(f"Found {len(existing_files)} files on disk, {len(indexed_files)} in index")
+
+        # Filter to only new or modified files using mtime comparison
+        candidates = []
+        skipped = 0
         for file_path in existing_files:
-            if is_supported_file(file_path, self.config.file_extensions):
-                await self.indexing_queue.add_file(file_path, priority=8)
-                added_count += 1
-        
-        logger.info(f"Added {added_count} files to indexing queue")
+            if not is_supported_file(file_path, self.config.file_extensions):
+                continue
+            str_path = str(file_path)
+            if str_path in indexed_files:
+                # Compare mtime — if unchanged, skip entirely (no hash needed)
+                disk_mtime = datetime.fromtimestamp(file_path.stat().st_mtime).isoformat()
+                if disk_mtime == indexed_files[str_path]["modified_time"]:
+                    skipped += 1
+                    continue
+            candidates.append(file_path)
+
+        logger.info(f"Skipped {skipped} unchanged files, {len(candidates)} need checking")
+
+        # Limit candidates for very large initial scans
+        max_initial_files = int(os.getenv("MAX_INITIAL_FILES", "500"))
+        if len(candidates) > max_initial_files:
+            logger.warning(f"{len(candidates)} candidates exceed limit, taking {max_initial_files} most recent")
+            candidates = sorted(candidates, key=lambda x: x.stat().st_mtime, reverse=True)[:max_initial_files]
+
+        # Add files to indexing queue with lower priority
+        for file_path in candidates:
+            await self.indexing_queue.add_file(file_path, priority=8)
+
+        logger.info(f"Added {len(candidates)} files to indexing queue")
     
     async def start(self):
         """Start the service."""

@@ -254,6 +254,26 @@ class DocumentIndexer:
             return len(results) > 0
         except Exception:
             return False
+
+    async def get_indexed_files(self) -> Dict[str, Dict[str, str]]:
+        """Bulk-fetch all indexed file paths with their hashes and modified times.
+
+        Returns a dict mapping file_path -> {"file_hash": ..., "modified_time": ...}.
+        """
+        try:
+            results = await asyncio.get_event_loop().run_in_executor(
+                self.executor,
+                lambda: self.catalog_table.to_pandas()[["file_path", "file_hash", "modified_time"]]
+            )
+            indexed = {}
+            for _, row in results.iterrows():
+                indexed[row["file_path"]] = {
+                    "file_hash": row["file_hash"],
+                    "modified_time": row["modified_time"],
+                }
+            return indexed
+        except Exception:
+            return {}
     
     async def remove_document(self, file_path: str):
         """Remove a document and its chunks from the index."""
