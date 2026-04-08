@@ -8,8 +8,9 @@ import sys
 import subprocess
 import time
 import os
+import urllib.request
+import urllib.error
 from pathlib import Path
-from typing import Optional
 from fastmcp import FastMCP
 
 from .config import get_config
@@ -42,6 +43,7 @@ class DocumentIndexerService:
         self.mcp = None
         self.running = False
         self._indexing_task = None
+        self._monitor_task = None
     
     async def initialize(self):
         """Initialize all components."""
@@ -141,22 +143,21 @@ class DocumentIndexerService:
     async def process_indexing_queue(self):
         """Process files in the indexing queue."""
         processed_count = 0
-        total_to_process = 0
-        
+        file_path = None
+
         while self.running:
             try:
                 # Get next file from queue
                 file_path = await self.indexing_queue.get_next()
-                
+
                 if file_path:
-                    # Log progress
+                    # Log progress with live queue stats
                     queue_stats = self.indexing_queue.get_stats()
-                    if processed_count == 0:
-                        total_to_process = queue_stats['queued'] + queue_stats['processing']
-                    
+                    total_to_process = processed_count + queue_stats['queued'] + queue_stats['processing']
+
                     processed_count += 1
                     logger.info(f"[{processed_count}/{total_to_process}] Processing: {file_path.name}")
-                    
+
                     success = await self.index_file(file_path)
                     if success:
                         self.indexing_queue.mark_complete(file_path)
@@ -164,18 +165,19 @@ class DocumentIndexerService:
                     else:
                         self.indexing_queue.mark_complete(file_path)
                         logger.info(f"[{processed_count}/{total_to_process}] ⟳ Unchanged: {file_path.name}")
-                    
+
                     # Log queue status every 10 files
                     if processed_count % 10 == 0:
                         logger.info(f"Progress: {processed_count} processed, {queue_stats['queued']} remaining in queue")
                 else:
                     # No files to process, wait a bit
                     await asyncio.sleep(1)
-                    
+
             except Exception as e:
                 logger.error(f"Error processing file: {e}")
                 if file_path:
                     self.indexing_queue.mark_failed(file_path, str(e))
+                    file_path = None
                 await asyncio.sleep(1)
     
     async def initial_scan(self):
@@ -213,9 +215,9 @@ class DocumentIndexerService:
         # Start file monitor
         if self.monitor:
             self.monitor.start()
-            
+
             # Start monitor event processing
-            asyncio.create_task(self.monitor.process_events())
+            self._monitor_task = asyncio.create_task(self.monitor.process_events())
             
             # Perform initial scan
             await self.initial_scan()
@@ -266,49 +268,47 @@ class DocumentIndexerService:
         return mcp
 
 
+def _ollama_health_check(timeout: float = 2) -> bool:
+    """Check if Ollama is responding."""
+    try:
+        req = urllib.request.Request("http://localhost:11434/api/tags")
+        with urllib.request.urlopen(req, timeout=timeout):
+            return True
+    except (urllib.error.URLError, OSError):
+        return False
+
+
 def ensure_ollama_running():
     """Ensure Ollama is running, start it if not."""
-    try:
-        # Check if Ollama is running
-        result = subprocess.run(
-            ["curl", "-s", "http://localhost:11434/api/tags"],
-            capture_output=True,
-            timeout=2
-        )
-        if result.returncode == 0:
-            logger.info("Ollama is already running")
-            return True
-    except Exception:
-        pass
-    
+    if _ollama_health_check():
+        logger.info("Ollama is already running")
+        return True
+
     # Try to start Ollama
     logger.info("Starting Ollama serve in background...")
     try:
         # Start ollama serve in background
-        process = subprocess.Popen(
-            ["ollama", "serve"],
+        popen_kwargs = dict(
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
-            start_new_session=True
         )
-        
-        # Wait a bit for it to start
-        time.sleep(3)
-        
-        # Check if it's running now
-        result = subprocess.run(
-            ["curl", "-s", "http://localhost:11434/api/tags"],
-            capture_output=True,
-            timeout=2
-        )
-        
-        if result.returncode == 0:
-            logger.info("Ollama serve started successfully")
-            return True
+        if sys.platform == "win32":
+            popen_kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
         else:
-            logger.warning("Ollama serve started but not responding yet")
-            return False
-            
+            popen_kwargs["start_new_session"] = True
+
+        subprocess.Popen(["ollama", "serve"], **popen_kwargs)
+
+        # Retry health check with short sleeps instead of one long sleep
+        for _ in range(6):
+            time.sleep(0.5)
+            if _ollama_health_check():
+                logger.info("Ollama serve started successfully")
+                return True
+
+        logger.warning("Ollama serve started but not responding yet")
+        return False
+
     except FileNotFoundError:
         logger.error("Ollama not found. Please install from https://ollama.com/download")
         return False
@@ -338,11 +338,11 @@ async def main():
         # Setup signal handlers
         def signal_handler(sig, frame):
             logger.info("Shutting down...")
-            asyncio.create_task(service.stop())
-            sys.exit(0)
-        
+            service.running = False
+
         signal.signal(signal.SIGINT, signal_handler)
-        signal.signal(signal.SIGTERM, signal_handler)
+        if sys.platform != "win32":
+            signal.signal(signal.SIGTERM, signal_handler)
         
         logger.info("MCP Document Indexer running...")
         logger.info(f"Watching folders: {service.config.watch_folders}")
