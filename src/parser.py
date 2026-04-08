@@ -170,18 +170,22 @@ class DocumentParser:
             # Find the end of the chunk
             end = min(start + self.chunk_size, text_length)
             
-            # Try to break at sentence or paragraph boundary
+            # Try to break at sentence or paragraph boundary.
+            # Only search in the second half of the chunk window so we always
+            # advance by at least chunk_size // 2 characters, preventing the
+            # near-zero-progress case that exhausts the chunk limit early.
             if end < text_length:
+                min_end = start + max(self.chunk_size // 2, 1)
                 # Look for paragraph break first (better boundary)
-                para_break = text.rfind('\n\n', start, end)
-                if para_break > start:
+                para_break = text.rfind('\n\n', min_end, end)
+                if para_break != -1:
                     end = para_break
                 else:
                     # Look for sentence break
                     sentence_breaks = ['. ', '! ', '? ', '\n']
                     for break_char in sentence_breaks:
-                        break_pos = text.rfind(break_char, start, end)
-                        if break_pos > start:
+                        break_pos = text.rfind(break_char, min_end, end)
+                        if break_pos != -1:
                             end = break_pos + len(break_char)
                             break
             
