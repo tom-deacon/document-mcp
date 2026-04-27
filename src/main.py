@@ -53,7 +53,9 @@ class DocumentIndexerService:
         # Initialize components
         self.parser = DocumentParser(
             chunk_size=self.config.chunk_size,
-            chunk_overlap=self.config.chunk_overlap
+            chunk_overlap=self.config.chunk_overlap,
+            use_structured=self.config.use_structured_parsing,
+            max_chunk_tokens=self.config.max_chunk_tokens,
         )
         
         self.llm = LocalLLM(
