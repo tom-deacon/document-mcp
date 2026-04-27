@@ -54,7 +54,7 @@ class Config(BaseModel):
     )
 
     # ----------------------------------------------------------------
-    # New structured-parsing options
+    # Structured-parsing options (Phase 1)
     # ----------------------------------------------------------------
     use_structured_parsing: bool = Field(
         default=True,
@@ -68,6 +68,39 @@ class Config(BaseModel):
         description=(
             "Target token budget per chunk in the structured pipeline. "
             "Adjust with MAX_CHUNK_TOKENS. Typical range: 256–800."
+        ),
+    )
+
+    # ----------------------------------------------------------------
+    # Visual ingestion options (Phase 2)
+    # ----------------------------------------------------------------
+    enable_ocr: bool = Field(
+        default=True,
+        description=(
+            "Run Tesseract OCR on extracted images when pytesseract is "
+            "installed. Set ENABLE_OCR=false to skip OCR entirely."
+        ),
+    )
+    ocr_language: str = Field(
+        default="eng",
+        description=(
+            "Tesseract language code for OCR. Default 'eng' (English). "
+            "Use OCR_LANGUAGE=eng+fra for multilingual documents."
+        ),
+    )
+    enable_vision_summary: bool = Field(
+        default=False,
+        description=(
+            "Send images to a vision-capable Ollama model for a short "
+            "natural-language description. Requires VISION_MODEL to be set. "
+            "Disabled by default — set ENABLE_VISION_SUMMARY=true to enable."
+        ),
+    )
+    vision_model: str = Field(
+        default="",
+        description=(
+            "Ollama model name for vision summaries, e.g. 'llava:7b'. "
+            "Only used when ENABLE_VISION_SUMMARY=true."
         ),
     )
 
@@ -101,10 +134,18 @@ class Config(BaseModel):
         ollama_base_url  = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
         batch_size       = int(os.getenv("BATCH_SIZE", "10"))
 
-        # New structured-parsing settings
+        # Structured-parsing settings (Phase 1)
         use_structured_raw = os.getenv("USE_STRUCTURED_PARSING", "true").lower()
         use_structured_parsing = use_structured_raw not in ("false", "0", "no")
         max_chunk_tokens = int(os.getenv("MAX_CHUNK_TOKENS", "512"))
+
+        # Visual ingestion settings (Phase 2)
+        enable_ocr_raw = os.getenv("ENABLE_OCR", "true").lower()
+        enable_ocr = enable_ocr_raw not in ("false", "0", "no")
+        ocr_language = os.getenv("OCR_LANGUAGE", "eng")
+        enable_vision_summary_raw = os.getenv("ENABLE_VISION_SUMMARY", "false").lower()
+        enable_vision_summary = enable_vision_summary_raw not in ("false", "0", "no")
+        vision_model = os.getenv("VISION_MODEL", "")
 
         return cls(
             watch_folders=watch_folders,
@@ -119,6 +160,10 @@ class Config(BaseModel):
             batch_size=batch_size,
             use_structured_parsing=use_structured_parsing,
             max_chunk_tokens=max_chunk_tokens,
+            enable_ocr=enable_ocr,
+            ocr_language=ocr_language,
+            enable_vision_summary=enable_vision_summary,
+            vision_model=vision_model,
         )
 
     def ensure_dirs(self):

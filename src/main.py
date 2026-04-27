@@ -56,6 +56,10 @@ class DocumentIndexerService:
             chunk_overlap=self.config.chunk_overlap,
             use_structured=self.config.use_structured_parsing,
             max_chunk_tokens=self.config.max_chunk_tokens,
+            enable_ocr=self.config.enable_ocr,
+            ocr_language=self.config.ocr_language,
+            enable_vision_summary=self.config.enable_vision_summary,
+            vision_model=self.config.vision_model,
         )
         
         self.llm = LocalLLM(

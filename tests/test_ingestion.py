@@ -75,6 +75,16 @@ def main():
         default=512,
         help="Token budget per chunk (default 512)",
     )
+    parser.add_argument(
+        "--no-ocr",
+        action="store_true",
+        help="Disable OCR even if Tesseract is available",
+    )
+    parser.add_argument(
+        "--ocr-lang",
+        default="eng",
+        help="Tesseract language code (default: eng)",
+    )
     args = parser.parse_args()
 
     file_path = Path(args.file)
@@ -85,12 +95,21 @@ def main():
     doc_parser = DocumentParser(
         use_structured=not args.plain,
         max_chunk_tokens=args.max_tokens,
+        enable_ocr=not args.no_ocr,
+        ocr_language=args.ocr_lang,
     )
+
+    from src.parsers.visual_utils import ocr_is_available
+
+    ocr_status = "on" if (not args.no_ocr and ocr_is_available()) else "off"
+    if not args.no_ocr and not ocr_is_available():
+        ocr_status = "off (Tesseract not found)"
 
     print(f"\n{'='*70}")
     print(f"  File   : {file_path.name}")
     print(f"  Mode   : {'plain-text' if args.plain else 'structured'}")
     print(f"  Tokens : ≤{args.max_tokens} per chunk")
+    print(f"  OCR    : {ocr_status}")
     print(f"{'='*70}\n")
 
     try:
@@ -150,6 +169,19 @@ def main():
             print(f"        embed↑  : {_preview(emb_txt, 100)}")
         if has_md:
             print(f"        markdown: {_preview(chunk['html_or_markdown'], 100)}")
+        # Visual chunk fields (figures only)
+        if etype == "figure":
+            alt  = chunk.get("alt_text", "")
+            cap  = chunk.get("caption", "")
+            ocr  = chunk.get("ocr_text", "")
+            if alt:
+                print(f"        alt_text: {_preview(alt, 100)}")
+            if cap:
+                print(f"        caption : {_preview(cap, 100)}")
+            if ocr:
+                print(f"        ocr_text: {_preview(ocr, 100)}")
+            elif not alt and not cap:
+                print(f"        (no alt text, caption, or OCR text)")
         print()
 
     print(f"{'='*70}")

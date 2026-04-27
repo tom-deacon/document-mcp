@@ -33,12 +33,24 @@ class DocumentParser:
         chunk_overlap: int = 200,
         use_structured: bool = True,
         max_chunk_tokens: int = 512,
+        enable_ocr: bool = True,
+        ocr_language: str = "eng",
+        enable_vision_summary: bool = False,
+        vision_model: str = "",
     ):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         self.use_structured = use_structured
         self.max_chunk_tokens = max_chunk_tokens
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
+        # Build a VisualConfig so parsers can share it without re-importing config
+        from .parsers.visual_utils import VisualConfig
+        self._visual_config = VisualConfig(
+            enable_ocr=enable_ocr,
+            ocr_language=ocr_language,
+            enable_vision_summary=enable_vision_summary,
+            vision_model=vision_model,
+        )
 
     # ------------------------------------------------------------------
     # Public entry point
@@ -108,7 +120,7 @@ class DocumentParser:
         Returns (chunks, full_text).  Falls back to plain-text on any error.
         """
         try:
-            elements = _route_to_parser(file_path, file_type)
+            elements = _route_to_parser(file_path, file_type, self._visual_config)
         except Exception as exc:
             logger.warning(
                 "    -> Structured parser failed for %s (%s). "
@@ -327,19 +339,24 @@ class DocumentParser:
 _STRUCTURED_TYPES = {".pdf", ".docx", ".doc", ".xlsx", ".xls"}
 
 
-def _route_to_parser(file_path: Path, file_type: str) -> List[Dict[str, Any]]:
+def _route_to_parser(
+    file_path: Path,
+    file_type: str,
+    visual_config=None,     # VisualConfig | None
+) -> List[Dict[str, Any]]:
     """Dispatch to the correct structured parser by file type."""
     if file_type in (".docx", ".doc"):
         from .parsers.structured_docx import parse_docx_structured
-        return parse_docx_structured(file_path)
+        return parse_docx_structured(file_path, visual_config=visual_config)
 
     if file_type in (".xlsx", ".xls"):
         from .parsers.excel_parser import parse_excel_structured
+        # Excel has no visual content — visual_config not used here
         return parse_excel_structured(file_path)
 
     if file_type == ".pdf":
         from .parsers.pdf_parser import parse_pdf_structured
-        return parse_pdf_structured(file_path)
+        return parse_pdf_structured(file_path, visual_config=visual_config)
 
     raise ValueError(f"No structured parser for file type '{file_type}'")
 
