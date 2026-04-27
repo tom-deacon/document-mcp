@@ -7,14 +7,11 @@ This module is the single place that decides:
   - how to recognise figure/chart/diagram captions in text
   - how to build a standardised visual chunk dict
 
-OCR requires  pytesseract  AND the Tesseract binary to be installed.
-If either is missing the rest of the pipeline still works — visual chunks
-are created but their ocr_text field will be empty.
+OCR uses EasyOCR (pure-Python, no external binary required).
+If the package is missing the rest of the pipeline still works — visual
+chunks are created but their ocr_text field will be empty.
 
-Install guide (Windows):
-  1. Download Tesseract from https://github.com/UB-Mannheim/tesseract/wiki
-     and run the installer (adds tesseract.exe to PATH).
-  2. pip install pytesseract Pillow   (or: uv add pytesseract Pillow)
+Install: pip install easyocr   (or: uv add easyocr)
 """
 
 import io
@@ -31,6 +28,7 @@ logger = logging.getLogger(__name__)
 
 _PIL_AVAILABLE = False
 _OCR_AVAILABLE = False
+_EASYOCR_READER = None   # initialised once below; reused for every image
 
 try:
     from PIL import Image as _PILImage   # noqa: F401
@@ -40,27 +38,25 @@ except ImportError:
 
 if _PIL_AVAILABLE:
     try:
-        import pytesseract as _pytesseract
-        _pytesseract.get_tesseract_version()   # raises if binary missing
+        import easyocr as _easyocr
+        # gpu=False keeps startup deterministic; EasyOCR auto-detects CUDA at
+        # runtime if torch was built with CUDA support.
+        _EASYOCR_READER = _easyocr.Reader(["en"], gpu=False)
         _OCR_AVAILABLE = True
-        logger.info("[VISUAL] Tesseract OCR ready (pytesseract)")
+        logger.info("[VISUAL] EasyOCR ready")
     except ImportError:
         logger.info(
-            "[VISUAL] pytesseract not installed — OCR disabled. "
-            "Run: uv add pytesseract Pillow  (also install Tesseract binary)"
+            "[VISUAL] easyocr not installed — OCR disabled. "
+            "Run: uv add easyocr"
         )
     except Exception as exc:
-        logger.warning(
-            "[VISUAL] pytesseract installed but Tesseract binary not found or "
-            "not on PATH: %s. "
-            "Download from https://github.com/UB-Mannheim/tesseract/wiki", exc
-        )
+        logger.warning("[VISUAL] EasyOCR failed to initialise: %s", exc)
 else:
     logger.debug("[VISUAL] Pillow not available — OCR and image resize disabled")
 
 
 def ocr_is_available() -> bool:
-    """Return True if both pytesseract and the Tesseract binary are usable."""
+    """Return True if EasyOCR initialised successfully."""
     return _OCR_AVAILABLE
 
 
@@ -104,24 +100,48 @@ def is_caption_text(text: str) -> bool:
 # OCR
 # ---------------------------------------------------------------------------
 
+def preprocess_image_for_ocr(image: "Image.Image") -> "Image.Image":
+    """
+    Prepare a PIL Image for OCR.
+
+    Steps:
+      1. Convert to greyscale (reduces noise, speeds up recognition).
+      2. Upscale so the longest side is at least 1000 px — equivalent to
+         ~300 DPI for a typical embedded PDF image (~85 mm wide).
+      3. Apply a sharpening filter to improve edge contrast.
+    """
+    from PIL import ImageFilter
+    image = image.convert("L")
+    w, h = image.size
+    longest = max(w, h)
+    if longest < 1000:
+        scale = 1000 / longest
+        image = image.resize((int(w * scale), int(h * scale)), _PILImage.LANCZOS)
+    return image.filter(ImageFilter.SHARPEN)
+
+
 def run_ocr(image_bytes: bytes, lang: str = "eng") -> str:
     """
-    Run Tesseract OCR on raw image bytes.
+    Run EasyOCR on raw image bytes.
 
-    Returns the extracted text stripped of leading/trailing whitespace,
-    or "" if OCR is unavailable, the image is empty, or an error occurs.
-    Errors are logged at DEBUG level (expected when diagram contains no text).
+    ``lang`` is accepted for interface compatibility with the rest of the
+    pipeline (it was the Tesseract language code, e.g. "eng").  The EasyOCR
+    reader is initialised once at module load time with ["en"]; the parameter
+    is not forwarded at call time.
+
+    Returns the extracted text joined into a single string, stripped of
+    leading/trailing whitespace, or "" if OCR is unavailable, the image is
+    empty, or an error occurs.  Errors are logged at DEBUG level.
     """
     if not _OCR_AVAILABLE or not _PIL_AVAILABLE or not image_bytes:
         return ""
     try:
-        import pytesseract
+        import numpy as np
         from PIL import Image
         img = Image.open(io.BytesIO(image_bytes))
-        # Tesseract works best on RGB or greyscale
-        if img.mode not in ("RGB", "L", "RGBA"):
-            img = img.convert("RGB")
-        return pytesseract.image_to_string(img, lang=lang).strip()
+        img = preprocess_image_for_ocr(img)
+        results = _EASYOCR_READER.readtext(np.array(img), detail=0)
+        return " ".join(results).strip()
     except Exception as exc:
         logger.debug("[OCR] Failed: %s", exc)
         return ""

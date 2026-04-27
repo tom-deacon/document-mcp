@@ -77,15 +77,16 @@ class Config(BaseModel):
     enable_ocr: bool = Field(
         default=True,
         description=(
-            "Run Tesseract OCR on extracted images when pytesseract is "
-            "installed. Set ENABLE_OCR=false to skip OCR entirely."
+            "Run EasyOCR on extracted images when easyocr is installed. "
+            "Set ENABLE_OCR=false to skip OCR entirely."
         ),
     )
     ocr_language: str = Field(
         default="eng",
         description=(
-            "Tesseract language code for OCR. Default 'eng' (English). "
-            "Use OCR_LANGUAGE=eng+fra for multilingual documents."
+            "OCR language code (Tesseract-style, e.g. 'eng'). Default 'eng' "
+            "(English). Accepted for compatibility; EasyOCR reader is "
+            "initialised with English at startup."
         ),
     )
     enable_vision_summary: bool = Field(
