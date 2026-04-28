@@ -165,6 +165,12 @@ def chunk_structured_elements(
         else:
             primary_type = "paragraph"
 
+        # Collect unique extracted_by values from the merged elements
+        extracted_by_vals = list(dict.fromkeys(
+            e["extracted_by"] for e in buf_elems if e.get("extracted_by")
+        ))
+        extracted_by = ",".join(extracted_by_vals)
+
         total_tokens = _count(merged_text)
 
         if total_tokens <= max_tokens:
@@ -182,6 +188,7 @@ def chunk_structured_elements(
                 "char_count": len(merged_text),
                 "start_pos": -1,
                 "end_pos": -1,
+                "extracted_by": extracted_by,
             })
         else:
             # Element is too large — split by sentences
@@ -192,6 +199,7 @@ def chunk_structured_elements(
             for c in sub:
                 c["start_pos"] = -1
                 c["end_pos"] = -1
+                c["extracted_by"] = extracted_by
             chunks.extend(sub)
 
         buf_elems.clear()
@@ -230,6 +238,7 @@ def chunk_structured_elements(
                 "char_count": len(text),
                 "start_pos": -1,
                 "end_pos": -1,
+                "extracted_by": elem.get("extracted_by", ""),
             })
 
         elif _is_heading(etype):

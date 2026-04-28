@@ -28,6 +28,7 @@ _STRUCTURED_CHUNK_FIELDS = [
     ("page_or_sheet",   pa.string()),   # page number (str) or sheet name
     ("embedding_text",  pa.string()),   # enriched text actually sent to the embedding model
     ("html_or_markdown", pa.string()),  # markdown table or "" for non-table chunks
+    ("extracted_by",    pa.string()),   # "docling" | "easyocr" | "" (PDF chunks only)
 ]
 
 
@@ -164,7 +165,7 @@ class DocumentIndexer:
         try:
             existing_cols = {f.name for f in self.chunks_table.schema}
             missing = {
-                name: f"cast('' as varchar)"
+                name: "cast('' as string)"
                 for name, _ in _STRUCTURED_CHUNK_FIELDS
                 if name not in existing_cols
             }
@@ -273,6 +274,7 @@ class DocumentIndexer:
                         entry["page_or_sheet"]   = chunk.get("page_or_sheet") or ""
                         entry["embedding_text"]  = chunk.get("embedding_text", "")
                         entry["html_or_markdown"] = chunk.get("html_or_markdown", "")
+                        entry["extracted_by"]    = chunk.get("extracted_by", "")
 
                     chunk_entries.append(entry)
 

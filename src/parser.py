@@ -37,11 +37,13 @@ class DocumentParser:
         ocr_language: str = "eng",
         enable_vision_summary: bool = False,
         vision_model: str = "",
+        max_pages: Optional[int] = None,
     ):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         self.use_structured = use_structured
         self.max_chunk_tokens = max_chunk_tokens
+        self.max_pages = max_pages
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
         # Build a VisualConfig so parsers can share it without re-importing config
         from .parsers.visual_utils import VisualConfig
@@ -88,7 +90,7 @@ class DocumentParser:
             logger.info(
                 "    -> [STRUCTURED] Parsing %s as %s", file_path.name, file_type
             )
-            chunks, full_text = self._parse_structured(file_path, file_type)
+            chunks, full_text = self._parse_structured(file_path, file_type, self.max_pages)
         else:
             logger.info(
                 "    -> [PLAIN-TEXT] Parsing %s as %s", file_path.name, file_type
@@ -113,14 +115,14 @@ class DocumentParser:
     # ------------------------------------------------------------------
 
     def _parse_structured(
-        self, file_path: Path, file_type: str
+        self, file_path: Path, file_type: str, max_pages: Optional[int] = None
     ) -> tuple[List[Dict[str, Any]], str]:
         """Run the structured parser + chunker for the given file type.
 
         Returns (chunks, full_text).  Falls back to plain-text on any error.
         """
         try:
-            elements = _route_to_parser(file_path, file_type, self._visual_config)
+            elements = _route_to_parser(file_path, file_type, self._visual_config, max_pages)
         except Exception as exc:
             logger.warning(
                 "    -> Structured parser failed for %s (%s). "
@@ -343,6 +345,7 @@ def _route_to_parser(
     file_path: Path,
     file_type: str,
     visual_config=None,     # VisualConfig | None
+    max_pages: Optional[int] = None,
 ) -> List[Dict[str, Any]]:
     """Dispatch to the correct structured parser by file type."""
     if file_type in (".docx", ".doc"):
@@ -351,12 +354,11 @@ def _route_to_parser(
 
     if file_type in (".xlsx", ".xls"):
         from .parsers.excel_parser import parse_excel_structured
-        # Excel has no visual content — visual_config not used here
         return parse_excel_structured(file_path)
 
     if file_type == ".pdf":
-        from .parsers.pdf_parser import parse_pdf_structured
-        return parse_pdf_structured(file_path, visual_config=visual_config)
+        from .parsers.pdf_parser import parse_pdf
+        return parse_pdf(file_path, visual_config=visual_config, max_pages=max_pages)
 
     raise ValueError(f"No structured parser for file type '{file_type}'")
 
