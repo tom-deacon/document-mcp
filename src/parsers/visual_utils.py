@@ -23,22 +23,38 @@ from typing import Any, Dict, List, Optional
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# One-time availability checks
+# One-time availability checks (PIL checked eagerly; EasyOCR loaded lazily)
 # ---------------------------------------------------------------------------
 
 _PIL_AVAILABLE = False
-_OCR_AVAILABLE = False
-_EASYOCR_READER = None   # initialised once below; reused for every image
 
 try:
     from PIL import Image as _PILImage   # noqa: F401
     _PIL_AVAILABLE = True
 except ImportError:
-    pass
+    logger.debug("[VISUAL] Pillow not available — OCR and image resize disabled")
 
-if _PIL_AVAILABLE:
+# EasyOCR / torch are NOT imported at module load time.  They are initialised
+# on first call to ocr_is_available() or run_ocr().  This prevents a broken
+# torch installation from crashing the whole pipeline at startup (e.g. when
+# Docling is handling all pages and EasyOCR would never be used).
+_OCR_INIT_DONE = False   # True once we have attempted initialisation
+_OCR_AVAILABLE = False
+_EASYOCR_READER = None
+
+
+def _init_easyocr() -> None:
+    """Attempt to initialise EasyOCR exactly once.  Results are cached."""
+    global _OCR_INIT_DONE, _OCR_AVAILABLE, _EASYOCR_READER
+    if _OCR_INIT_DONE:
+        return
+    _OCR_INIT_DONE = True
+
+    if not _PIL_AVAILABLE:
+        return
+
     try:
-        import easyocr as _easyocr
+        import easyocr as _easyocr  # noqa: PLC0415
         # gpu=False keeps startup deterministic; EasyOCR auto-detects CUDA at
         # runtime if torch was built with CUDA support.
         _EASYOCR_READER = _easyocr.Reader(["en"], gpu=False)
@@ -50,13 +66,15 @@ if _PIL_AVAILABLE:
             "Run: uv add easyocr"
         )
     except Exception as exc:
-        logger.warning("[VISUAL] EasyOCR failed to initialise: %s", exc)
-else:
-    logger.debug("[VISUAL] Pillow not available — OCR and image resize disabled")
+        logger.warning(
+            "[VISUAL] EasyOCR failed to initialise: %s: %s — OCR disabled.",
+            type(exc).__name__, exc,
+        )
 
 
 def ocr_is_available() -> bool:
-    """Return True if EasyOCR initialised successfully."""
+    """Return True if EasyOCR is installed and initialised successfully."""
+    _init_easyocr()
     return _OCR_AVAILABLE
 
 

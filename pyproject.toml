@@ -21,6 +21,7 @@ dependencies = [
     "python-dotenv",
     "psutil>=7.0.0",
     "openpyxl>=3.1.0",
+    "docling>=2.0.0",
     "easyocr",
     "torch",
     "Pillow>=10.0.0",
@@ -43,3 +44,15 @@ dev-dependencies = [
     "black>=23.0.0",
     "ruff>=0.1.0",
 ]
+
+# Torch and torchvision must come from the CPU-only wheel index.
+# The default PyPI builds include CUDA stubs that crash on import on
+# CPU-only machines (getwindowsversion / _load_dll_libraries failure).
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
