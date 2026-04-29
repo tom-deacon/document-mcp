@@ -11,6 +11,7 @@ The file hash check is bypassed so the document is always refreshed.
 
 import argparse
 import asyncio
+import logging
 import sys
 from pathlib import Path
 
@@ -18,7 +19,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(override=True)
+
+logging.basicConfig(level=logging.INFO, stream=sys.stderr,
+                    format="%(levelname)s %(name)s: %(message)s")
 
 from src.config import get_config
 from src.parser import DocumentParser
@@ -43,6 +47,8 @@ async def reindex(file_path: Path) -> None:
         ocr_language=config.ocr_language,
         enable_vision_summary=config.enable_vision_summary,
         vision_model=config.vision_model,
+        enable_vision_enhancement=config.enable_vision_enhancement,
+        vision_word_threshold=config.vision_word_threshold,
     )
 
     llm = LocalLLM(model=config.llm_model, base_url=config.ollama_base_url)

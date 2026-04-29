@@ -23,6 +23,7 @@ dependencies = [
     "openpyxl>=3.1.0",
     "docling>=2.0.0",
     "easyocr",
+    "anthropic>=0.40.0",
     "torch",
     "Pillow>=10.0.0",
 ]

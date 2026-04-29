@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 # -----------------------------------------------------------------------
 # Type categories
 # -----------------------------------------------------------------------
-_STANDALONE = {"table", "sheet", "figure", "cell_range"}
+_STANDALONE = {"table", "sheet", "figure", "cell_range", "vision_description"}
 _HEADING_RE = re.compile(r"^heading_\d$|^title$")
 
 

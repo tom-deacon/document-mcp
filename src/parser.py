@@ -38,12 +38,16 @@ class DocumentParser:
         enable_vision_summary: bool = False,
         vision_model: str = "",
         max_pages: Optional[int] = None,
+        enable_vision_enhancement: bool = False,
+        vision_word_threshold: int = 50,
     ):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         self.use_structured = use_structured
         self.max_chunk_tokens = max_chunk_tokens
         self.max_pages = max_pages
+        self.enable_vision_enhancement = enable_vision_enhancement
+        self.vision_word_threshold = vision_word_threshold
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
         # Build a VisualConfig so parsers can share it without re-importing config
         from .parsers.visual_utils import VisualConfig
@@ -140,6 +144,22 @@ class DocumentParser:
             )
             full_text = self._extract_text(file_path)
             return self._create_chunks(full_text), full_text
+
+        # Vision enhancement pass — PDF only, when enabled
+        if file_type == ".pdf" and self.enable_vision_enhancement:
+            from .vision_enhancer import enhance_pdf
+            vision_elements = enhance_pdf(
+                file_path, word_threshold=self.vision_word_threshold
+            )
+            if vision_elements:
+                elements = elements + vision_elements
+                elements.sort(
+                    key=lambda e: int(e.get("page_or_sheet") or 0)
+                )
+                logger.info(
+                    "    -> Vision enhancement: +%d vision-description element(s)",
+                    len(vision_elements),
+                )
 
         # Reconstruct a plain-text version from elements (for summary / LLM)
         full_text = "\n\n".join(e.get("text", "") for e in elements if e.get("text"))

@@ -7,7 +7,7 @@ from typing import List, Optional
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 class Config(BaseModel):
@@ -106,6 +106,26 @@ class Config(BaseModel):
         ),
     )
 
+    # ----------------------------------------------------------------
+    # Anthropic vision enhancement (Phase 3)
+    # ----------------------------------------------------------------
+    enable_vision_enhancement: bool = Field(
+        default=False,
+        description=(
+            "For PDF pages with low text density, call the Anthropic Claude "
+            "vision API to generate a structured description of the slide. "
+            "Disabled by default — set ENABLE_VISION_ENHANCEMENT=true to enable. "
+            "Requires ANTHROPIC_API_KEY to be set."
+        ),
+    )
+    vision_word_threshold: int = Field(
+        default=50,
+        description=(
+            "Pages with fewer words than this value are considered visually rich "
+            "and are sent to the vision API. Adjust with VISION_WORD_THRESHOLD."
+        ),
+    )
+
     @classmethod
     def from_env(cls) -> "Config":
         """Create config from environment variables."""
@@ -149,6 +169,11 @@ class Config(BaseModel):
         enable_vision_summary = enable_vision_summary_raw not in ("false", "0", "no")
         vision_model = os.getenv("VISION_MODEL", "")
 
+        # Anthropic vision enhancement settings (Phase 3)
+        enable_vision_enhancement_raw = os.getenv("ENABLE_VISION_ENHANCEMENT", "false").lower()
+        enable_vision_enhancement = enable_vision_enhancement_raw not in ("false", "0", "no")
+        vision_word_threshold = int(os.getenv("VISION_WORD_THRESHOLD", "50"))
+
         return cls(
             watch_folders=watch_folders,
             lancedb_path=Path(lancedb_path).expanduser().absolute(),
@@ -166,6 +191,8 @@ class Config(BaseModel):
             ocr_language=ocr_language,
             enable_vision_summary=enable_vision_summary,
             vision_model=vision_model,
+            enable_vision_enhancement=enable_vision_enhancement,
+            vision_word_threshold=vision_word_threshold,
         )
 
     def ensure_dirs(self):
