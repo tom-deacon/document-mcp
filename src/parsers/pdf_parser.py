@@ -230,9 +230,10 @@ def parse_pdf_with_docling(
     Raises ImportError if docling is not installed (caller catches this).
     """
     def _p(msg: str) -> None:
-        """Immediate flushed print — visible even if logging is buffered."""
-        safe = msg.encode(sys.stdout.encoding or "utf-8", errors="replace").decode(sys.stdout.encoding or "utf-8", errors="replace")
-        print(f"[DOCLING] {safe}", flush=True)
+        """Immediate flushed print to stderr — stdout is reserved for MCP JSON."""
+        enc = sys.stderr.encoding or "utf-8"
+        safe = msg.encode(enc, errors="replace").decode(enc, errors="replace")
+        print(f"[DOCLING] {safe}", file=sys.stderr, flush=True)
 
     _p(f"► importing Docling modules  ({file_path.name})")
     from docling.datamodel.base_models import InputFormat  # noqa: PLC0415
@@ -466,11 +467,11 @@ def parse_pdf(
     docling_elements: List[Dict[str, Any]] = []
     covered_pages: Set[int] = set()
 
-    print(f"[PDF] parse_pdf() reached — checking Docling availability", flush=True)
+    print(f"[PDF] parse_pdf() reached — checking Docling availability", file=sys.stderr, flush=True)
     try:
         import docling  # noqa: F401  — check availability without full import
         docling_ok = True
-        print(f"[PDF] Docling import OK — will attempt Docling path", flush=True)
+        print(f"[PDF] Docling import OK — will attempt Docling path", file=sys.stderr, flush=True)
     except ImportError:
         logger.info(
             "[PDF] Docling not installed — using EasyOCR pipeline for all pages "
@@ -481,7 +482,7 @@ def parse_pdf(
 
     if docling_ok:
         try:
-            print(f"[PDF] calling parse_pdf_with_docling() for {file_path.name}", flush=True)
+            print(f"[PDF] calling parse_pdf_with_docling() for {file_path.name}", file=sys.stderr, flush=True)
             docling_elements, covered_pages = parse_pdf_with_docling(
                 file_path, document_title, total_pages
             )

@@ -21,10 +21,11 @@ from .indexer import DocumentIndexer
 from .monitor import FileMonitor, IndexingQueue
 from .tools import DocumentTools
 
-# Configure logging
+# Configure logging — stderr only; stdout is reserved for MCP JSON protocol
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    stream=sys.stderr,
 )
 logger = logging.getLogger(__name__)
 

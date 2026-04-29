@@ -1,6 +1,7 @@
 """Configuration management for MCP Document Indexer."""
 
 import os
+import sys
 from pathlib import Path
 from typing import List, Optional
 from pydantic import BaseModel, Field
@@ -118,7 +119,7 @@ class Config(BaseModel):
                     if path.exists() and path.is_dir():
                         watch_folders.append(path)
                     else:
-                        print(f"Warning: Folder {folder} does not exist or is not a directory")
+                        print(f"Warning: Folder {folder} does not exist or is not a directory", file=sys.stderr)
 
         lancedb_path    = os.getenv("LANCEDB_PATH", "./vector_index")
         llm_model       = os.getenv("LLM_MODEL", "llama3.2:3b")
