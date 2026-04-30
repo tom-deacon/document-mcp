@@ -106,6 +106,71 @@ def _call_vision_api(image_bytes: bytes, api_key: str) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Description splitting
+# ---------------------------------------------------------------------------
+
+def _split_description(
+    description: str,
+    page_num: int,
+    max_chars: int = 800,
+) -> List[Dict[str, Any]]:
+    """
+    Return one or more element dicts for *description*.
+
+    If the description fits within *max_chars*, a single element is returned
+    using the existing format.  Otherwise it is split at double-newline
+    (paragraph) boundaries so that each chunk's content stays within
+    *max_chars*, and each element gets a "part X of Y" prefix and section_path.
+    Paragraphs are never split mid-text.
+    """
+    if len(description) <= max_chars:
+        return [{
+            "element_type": "vision_description",
+            "text": f"[Vision description of slide {page_num}]: {description}",
+            "section_path": f"Page {page_num}",
+            "page_or_sheet": str(page_num),
+            "html_or_markdown": "",
+            "extracted_by": "vision",
+        }]
+
+    # Split at paragraph boundaries and accumulate into ≤ max_chars chunks.
+    paragraphs = [p.strip() for p in description.split("\n\n") if p.strip()]
+    raw_chunks: List[str] = []
+    current_parts: List[str] = []
+    current_len = 0
+
+    for para in paragraphs:
+        # Length added to the running total: separator + paragraph
+        addition = len(para) if not current_parts else 2 + len(para)  # 2 = len("\n\n")
+        if current_parts and current_len + addition > max_chars:
+            raw_chunks.append("\n\n".join(current_parts))
+            current_parts = [para]
+            current_len = len(para)
+        else:
+            current_parts.append(para)
+            current_len += addition
+
+    if current_parts:
+        raw_chunks.append("\n\n".join(current_parts))
+
+    total = len(raw_chunks)
+    elements: List[Dict[str, Any]] = []
+    for part_idx, chunk_text in enumerate(raw_chunks, 1):
+        elements.append({
+            "element_type": "vision_description",
+            "text": (
+                f"[Vision description of slide {page_num}, "
+                f"part {part_idx} of {total}]: {chunk_text}"
+            ),
+            "section_path": f"Page {page_num} (part {part_idx} of {total})",
+            "page_or_sheet": str(page_num),
+            "html_or_markdown": "",
+            "extracted_by": "vision",
+        })
+    return elements
+
+
+# ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
 
@@ -200,19 +265,14 @@ def enhance_pdf(
                     )
                     continue
 
-                chunk_text = f"[Vision description of slide {page_num}]: {description}"
-                vision_elements.append({
-                    "element_type": "vision_description",
-                    "text": chunk_text,
-                    "section_path": f"Page {page_num}",
-                    "page_or_sheet": str(page_num),
-                    "html_or_markdown": "",
-                    "extracted_by": "vision",
-                })
+                new_elements = _split_description(description, page_num)
+                vision_elements.extend(new_elements)
 
+                n_parts = len(new_elements)
+                part_info = f" → {n_parts} sub-chunk(s)" if n_parts > 1 else ""
                 print(
                     f"[VISION] Page {page_num}: description generated "
-                    f"({len(description):,} chars)",
+                    f"({len(description):,} chars){part_info}",
                     file=sys.stderr, flush=True,
                 )
 
@@ -223,7 +283,7 @@ def enhance_pdf(
         )
 
     logger.info(
-        "[VISION] %s: %d vision-description element(s) generated",
+        "[VISION] %s: %d vision-description element(s) generated (across all pages/parts)",
         file_path.name, len(vision_elements),
     )
     return vision_elements
