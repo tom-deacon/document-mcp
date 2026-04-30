@@ -59,6 +59,11 @@ def _page_word_count(page: fitz.Page) -> int:
     return len(text.split()) if text else 0
 
 
+def _page_is_landscape(page: fitz.Page) -> bool:
+    """Return True if the page is wider than it is tall."""
+    return page.rect.width > page.rect.height
+
+
 def _rasterise_page(page: fitz.Page, dpi: int = _DPI) -> bytes:
     """Render *page* to a PNG byte string at *dpi* dots-per-inch."""
     matrix = fitz.Matrix(dpi / 72, dpi / 72)
@@ -109,6 +114,7 @@ def enhance_pdf(
     word_threshold: int = 50,
     api_key: Optional[str] = None,
     dpi: int = _DPI,
+    mode: str = "threshold",
 ) -> List[Dict[str, Any]]:
     """
     Generate vision-description elements for visually-rich pages in *file_path*.
@@ -116,14 +122,19 @@ def enhance_pdf(
     Parameters
     ----------
     file_path       : path to the PDF to analyse
-    word_threshold  : pages with fewer words than this are sent to the vision API
-    api_key         : Anthropic API key; falls back to the ANTHROPIC_API_KEY env var
+    word_threshold  : pages with fewer words than this are sent to vision
+                      (only used when mode='threshold')
+    api_key         : Anthropic API key; falls back to ANTHROPIC_API_KEY env var
     dpi             : rasterisation resolution (150 DPI is sufficient for legibility)
+    mode            : invocation rule — one of:
+                        'threshold'  pages below word_threshold are sent (default)
+                        'landscape'  all landscape-orientation pages are sent;
+                                     portrait pages are always skipped
 
     Returns
     -------
-    List of element dicts — one per visually-rich page — ready to be merged
-    into the PDF parser's element list before chunking.  Each dict has:
+    List of element dicts — one per selected page — ready to be merged into
+    the PDF parser's element list before chunking.  Each dict has:
         element_type  = "vision_description"
         text          = "[Vision description of slide N]: <prose>"
         section_path  = "Page N"
@@ -156,17 +167,26 @@ def enhance_pdf(
                 page_num = page_idx + 1  # 1-indexed to match Docling convention
                 page = pdf[page_idx]
 
-                word_count = _page_word_count(page)
-                if word_count >= word_threshold:
-                    logger.debug(
-                        "[VISION] Page %d/%d: %d words — text-dense, skipping",
-                        page_num, total, word_count,
-                    )
-                    continue
+                if mode == "landscape":
+                    if not _page_is_landscape(page):
+                        logger.debug(
+                            "[VISION] Page %d/%d: portrait — skipping",
+                            page_num, total,
+                        )
+                        continue
+                    reason = f"landscape ({page.rect.width:.0f}x{page.rect.height:.0f} pts)"
+                else:
+                    word_count = _page_word_count(page)
+                    if word_count >= word_threshold:
+                        logger.debug(
+                            "[VISION] Page %d/%d: %d words — text-dense, skipping",
+                            page_num, total, word_count,
+                        )
+                        continue
+                    reason = f"{word_count} words < {word_threshold} threshold"
 
                 print(
-                    f"[VISION] Page {page_num}/{total}: {word_count} words "
-                    f"(< {word_threshold} threshold) — calling Claude vision …",
+                    f"[VISION] Page {page_num}/{total}: {reason} — calling Claude vision …",
                     file=sys.stderr, flush=True,
                 )
 

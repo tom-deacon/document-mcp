@@ -49,6 +49,7 @@ async def reindex(file_path: Path) -> None:
         vision_model=config.vision_model,
         enable_vision_enhancement=config.enable_vision_enhancement,
         vision_word_threshold=config.vision_word_threshold,
+        vision_mode=config.vision_mode,
     )
 
     llm = LocalLLM(model=config.llm_model, base_url=config.ollama_base_url)

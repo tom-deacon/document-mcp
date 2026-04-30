@@ -40,6 +40,7 @@ class DocumentParser:
         max_pages: Optional[int] = None,
         enable_vision_enhancement: bool = False,
         vision_word_threshold: int = 50,
+        vision_mode: str = "threshold",
     ):
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
@@ -48,6 +49,7 @@ class DocumentParser:
         self.max_pages = max_pages
         self.enable_vision_enhancement = enable_vision_enhancement
         self.vision_word_threshold = vision_word_threshold
+        self.vision_mode = vision_mode
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
         # Build a VisualConfig so parsers can share it without re-importing config
         from .parsers.visual_utils import VisualConfig
@@ -149,7 +151,9 @@ class DocumentParser:
         if file_type == ".pdf" and self.enable_vision_enhancement:
             from .vision_enhancer import enhance_pdf
             vision_elements = enhance_pdf(
-                file_path, word_threshold=self.vision_word_threshold
+                file_path,
+                word_threshold=self.vision_word_threshold,
+                mode=self.vision_mode,
             )
             if vision_elements:
                 elements = elements + vision_elements

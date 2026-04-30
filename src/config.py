@@ -112,8 +112,8 @@ class Config(BaseModel):
     enable_vision_enhancement: bool = Field(
         default=False,
         description=(
-            "For PDF pages with low text density, call the Anthropic Claude "
-            "vision API to generate a structured description of the slide. "
+            "For PDF pages that meet the VISION_MODE criteria, call the Anthropic "
+            "Claude vision API to generate a structured description of the slide. "
             "Disabled by default — set ENABLE_VISION_ENHANCEMENT=true to enable. "
             "Requires ANTHROPIC_API_KEY to be set."
         ),
@@ -121,8 +121,17 @@ class Config(BaseModel):
     vision_word_threshold: int = Field(
         default=50,
         description=(
-            "Pages with fewer words than this value are considered visually rich "
-            "and are sent to the vision API. Adjust with VISION_WORD_THRESHOLD."
+            "Pages with fewer words than this value are sent to the vision API. "
+            "Only used when VISION_MODE=threshold. Adjust with VISION_WORD_THRESHOLD."
+        ),
+    )
+    vision_mode: str = Field(
+        default="threshold",
+        description=(
+            "Rule used to decide which pages are sent to the vision API. "
+            "'threshold' (default): pages below VISION_WORD_THRESHOLD words. "
+            "'landscape': all landscape-orientation pages (portrait pages are always "
+            "skipped). Use 'landscape' for archives of PowerPoint-derived PDFs."
         ),
     )
 
@@ -173,6 +182,9 @@ class Config(BaseModel):
         enable_vision_enhancement_raw = os.getenv("ENABLE_VISION_ENHANCEMENT", "false").lower()
         enable_vision_enhancement = enable_vision_enhancement_raw not in ("false", "0", "no")
         vision_word_threshold = int(os.getenv("VISION_WORD_THRESHOLD", "50"))
+        vision_mode = os.getenv("VISION_MODE", "threshold").lower().strip()
+        if vision_mode not in ("threshold", "landscape"):
+            vision_mode = "threshold"
 
         return cls(
             watch_folders=watch_folders,
@@ -193,6 +205,7 @@ class Config(BaseModel):
             vision_model=vision_model,
             enable_vision_enhancement=enable_vision_enhancement,
             vision_word_threshold=vision_word_threshold,
+            vision_mode=vision_mode,
         )
 
     def ensure_dirs(self):

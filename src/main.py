@@ -63,6 +63,7 @@ class DocumentIndexerService:
             vision_model=self.config.vision_model,
             enable_vision_enhancement=self.config.enable_vision_enhancement,
             vision_word_threshold=self.config.vision_word_threshold,
+            vision_mode=self.config.vision_mode,
         )
         
         self.llm = LocalLLM(

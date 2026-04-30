@@ -30,10 +30,16 @@ def main() -> None:
     )
     parser.add_argument("file", help="Path to the PDF file")
     parser.add_argument(
+        "--mode",
+        choices=["threshold", "landscape"],
+        default="threshold",
+        help="Invocation rule: 'threshold' (word count) or 'landscape' (orientation)",
+    )
+    parser.add_argument(
         "--threshold",
         type=int,
         default=50,
-        help="Word-count threshold below which a page is sent to vision (default: 50)",
+        help="Word-count threshold (only used with --mode threshold, default: 50)",
     )
     parser.add_argument(
         "--dpi",
@@ -49,7 +55,9 @@ def main() -> None:
         sys.exit(1)
 
     print(f"File      : {file_path.name}")
-    print(f"Threshold : {args.threshold} words")
+    print(f"Mode      : {args.mode}")
+    if args.mode == "threshold":
+        print(f"Threshold : {args.threshold} words")
     print(f"DPI       : {args.dpi}")
     print()
 
@@ -57,6 +65,7 @@ def main() -> None:
         file_path,
         word_threshold=args.threshold,
         dpi=args.dpi,
+        mode=args.mode,
     )
 
     print()
