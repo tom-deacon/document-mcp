@@ -34,8 +34,9 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 _MODEL = "claude-sonnet-4-6"
-_DPI = 150
+_DPI = 96                    # reduced from 150 — sufficient for legibility, far smaller files
 _MAX_TOKENS = 1024
+_MAX_IMAGE_BYTES = 4 * 1024 * 1024   # 4 MB hard ceiling (Anthropic limit is 5 MB)
 
 _VISION_SYSTEM_PROMPT = (
     "You are analysing a slide from a PDF document that originated from a "
@@ -65,14 +66,43 @@ def _page_is_landscape(page: fitz.Page) -> bool:
 
 
 def _rasterise_page(page: fitz.Page, dpi: int = _DPI) -> bytes:
-    """Render *page* to a PNG byte string at *dpi* dots-per-inch."""
+    """Render *page* to a JPEG byte string at *dpi* dots-per-inch.
+
+    If the initial render exceeds _MAX_IMAGE_BYTES the pixmap is scaled down
+    proportionally (halving dimensions each pass) until it fits.
+    """
+    from PIL import Image
+    import io as _io
+
     matrix = fitz.Matrix(dpi / 72, dpi / 72)
     pixmap = page.get_pixmap(matrix=matrix, alpha=False)
-    return pixmap.tobytes("png")
+
+    # Convert PyMuPDF pixmap → PIL Image for JPEG encoding and resizing
+    img = Image.frombytes("RGB", (pixmap.width, pixmap.height), pixmap.samples)
+
+    def _encode_jpeg(image: Image.Image) -> bytes:
+        buf = _io.BytesIO()
+        image.save(buf, format="JPEG", quality=85, optimize=True)
+        return buf.getvalue()
+
+    jpeg_bytes = _encode_jpeg(img)
+
+    # Proportionally shrink until under the size ceiling
+    while len(jpeg_bytes) > _MAX_IMAGE_BYTES:
+        new_w = img.width // 2
+        new_h = img.height // 2
+        logger.debug(
+            "[VISION] Image %.1f MB > limit — resizing to %dx%d",
+            len(jpeg_bytes) / 1_048_576, new_w, new_h,
+        )
+        img = img.resize((new_w, new_h), Image.LANCZOS)
+        jpeg_bytes = _encode_jpeg(img)
+
+    return jpeg_bytes
 
 
 def _call_vision_api(image_bytes: bytes, api_key: str) -> str:
-    """Send *image_bytes* (PNG) to the Anthropic vision API and return the description."""
+    """Send *image_bytes* (JPEG) to the Anthropic vision API and return the description."""
     import anthropic
 
     client = anthropic.Anthropic(api_key=api_key)
@@ -90,7 +120,7 @@ def _call_vision_api(image_bytes: bytes, api_key: str) -> str:
                         "type": "image",
                         "source": {
                             "type": "base64",
-                            "media_type": "image/png",
+                            "media_type": "image/jpeg",
                             "data": image_b64,
                         },
                     },
@@ -259,6 +289,11 @@ def enhance_pdf(
 
                 try:
                     image_bytes = _rasterise_page(page, dpi=dpi)
+                    print(
+                        f"[VISION] Page {page_num}: image {len(image_bytes) / 1_048_576:.2f} MB "
+                        f"({len(image_bytes):,} bytes) — sending to API …",
+                        file=sys.stderr, flush=True,
+                    )
                     description = _call_vision_api(image_bytes, resolved_key)
                 except Exception as exc:
                     logger.warning(
