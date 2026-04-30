@@ -315,11 +315,31 @@ class DocumentIndexer:
             raise
 
     # ------------------------------------------------------------------
+    # Table refresh helper
+    # ------------------------------------------------------------------
+
+    def _refresh_tables(self) -> None:
+        """Checkout the latest on-disk version of both tables.
+
+        LanceDB uses a versioned (Delta-Lake-style) format. When a separate
+        process (e.g. reindex_file.py) writes new data, the table objects held
+        by this long-running service still point at the version that was current
+        at open time. Calling checkout_latest() makes them read the newest
+        version so that queries always reflect the current index state.
+        """
+        try:
+            self.catalog_table.checkout_latest()
+            self.chunks_table.checkout_latest()
+        except Exception as exc:
+            logger.debug("checkout_latest failed (non-fatal): %s", exc)
+
+    # ------------------------------------------------------------------
     # Queries (unchanged behaviour)
     # ------------------------------------------------------------------
 
     async def is_document_indexed(self, file_path: str, file_hash: str) -> bool:
         """Return True if document is already indexed with the same hash."""
+        self._refresh_tables()
         try:
             query = f"file_path = '{file_path}' AND file_hash = '{file_hash}'"
             results = await asyncio.get_event_loop().run_in_executor(
@@ -332,6 +352,7 @@ class DocumentIndexer:
 
     async def get_indexed_files(self) -> Dict[str, Dict[str, str]]:
         """Return dict of file_path -> {file_hash, modified_time} for all indexed files."""
+        self._refresh_tables()
         try:
             results = await asyncio.get_event_loop().run_in_executor(
                 self.executor,
@@ -370,6 +391,7 @@ class DocumentIndexer:
 
     async def search_documents(self, query: str, limit: int = 10) -> List[Dict[str, Any]]:
         """Semantic search over document-level embeddings."""
+        self._refresh_tables()
         q_emb = (await self._generate_embedding(query)).astype(np.float32)
         results = await asyncio.get_event_loop().run_in_executor(
             self.executor,
@@ -386,6 +408,7 @@ class DocumentIndexer:
 
     async def search_chunks(self, query: str, limit: int = 20) -> List[Dict[str, Any]]:
         """Semantic search over chunk-level embeddings."""
+        self._refresh_tables()
         q_emb = (await self._generate_embedding(query)).astype(np.float32)
         results = await asyncio.get_event_loop().run_in_executor(
             self.executor,
@@ -401,6 +424,7 @@ class DocumentIndexer:
 
     async def get_catalog(self, skip: int = 0, limit: int = 100) -> List[Dict[str, Any]]:
         """Return paginated list of all indexed documents."""
+        self._refresh_tables()
         results = await asyncio.get_event_loop().run_in_executor(
             self.executor, lambda: self.catalog_table.to_pandas()
         )
@@ -415,6 +439,7 @@ class DocumentIndexer:
 
     async def get_document_info(self, file_path: str) -> Optional[Dict[str, Any]]:
         """Return full metadata for a single document."""
+        self._refresh_tables()
         query = f"file_path = '{file_path}'"
         results = await asyncio.get_event_loop().run_in_executor(
             self.executor,
@@ -434,6 +459,7 @@ class DocumentIndexer:
 
     async def get_stats(self) -> Dict[str, Any]:
         """Return indexing statistics."""
+        self._refresh_tables()
         catalog_df = await asyncio.get_event_loop().run_in_executor(
             self.executor, lambda: self.catalog_table.to_pandas()
         )
