@@ -36,7 +36,7 @@ async def main():
     ap.add_argument("file_path", help="Path to the document to reindex")
     ap.add_argument(
         "--vision-mode",
-        choices=["threshold", "landscape"],
+        choices=["threshold", "landscape", "all"],
         default=None,
         help="Override VISION_MODE for this run (default: use config/env value)",
     )

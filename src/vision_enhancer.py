@@ -232,7 +232,9 @@ def enhance_pdf(
                 page_num = page_idx + 1  # 1-indexed to match Docling convention
                 page = pdf[page_idx]
 
-                if mode == "landscape":
+                if mode == "all":
+                    reason = "all-pages mode"
+                elif mode == "landscape":
                     if not _page_is_landscape(page):
                         logger.debug(
                             "[VISION] Page %d/%d: portrait — skipping",

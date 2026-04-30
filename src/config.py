@@ -130,8 +130,9 @@ class Config(BaseModel):
         description=(
             "Rule used to decide which pages are sent to the vision API. "
             "'threshold' (default): pages below VISION_WORD_THRESHOLD words. "
-            "'landscape': all landscape-orientation pages (portrait pages are always "
-            "skipped). Use 'landscape' for archives of PowerPoint-derived PDFs."
+            "'landscape': landscape-orientation pages only (skips portrait). "
+            "'all': every page regardless of orientation or word count. "
+            "Use 'landscape' for PowerPoint-derived PDFs, 'all' for magazines."
         ),
     )
 
@@ -183,7 +184,7 @@ class Config(BaseModel):
         enable_vision_enhancement = enable_vision_enhancement_raw not in ("false", "0", "no")
         vision_word_threshold = int(os.getenv("VISION_WORD_THRESHOLD", "50"))
         vision_mode = os.getenv("VISION_MODE", "threshold").lower().strip()
-        if vision_mode not in ("threshold", "landscape"):
+        if vision_mode not in ("threshold", "landscape", "all"):
             vision_mode = "threshold"
 
         return cls(
