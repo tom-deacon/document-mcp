@@ -2,8 +2,14 @@
 Standalone script to reindex a single document using the current config + code.
 
 Usage:
-    python tools/reindex_one.py <file_path>
+    python tools/reindex_one.py <file_path> [--vision-mode threshold|landscape]
+
+The optional --vision-mode flag overrides the VISION_MODE env/config value for
+this run only.  Useful for document categories whose orientation differs from
+the global default (e.g. portrait-mode magazines when the global mode is
+'landscape').
 """
+import argparse
 import asyncio
 import io
 import logging
@@ -26,11 +32,17 @@ logging.basicConfig(
 )
 
 async def main():
-    if len(sys.argv) < 2:
-        print("Usage: python tools/reindex_one.py <file_path>", file=sys.stderr)
-        sys.exit(1)
+    ap = argparse.ArgumentParser(description="Force-reindex a single document.")
+    ap.add_argument("file_path", help="Path to the document to reindex")
+    ap.add_argument(
+        "--vision-mode",
+        choices=["threshold", "landscape"],
+        default=None,
+        help="Override VISION_MODE for this run (default: use config/env value)",
+    )
+    args = ap.parse_args()
 
-    file_path = Path(sys.argv[1])
+    file_path = Path(args.file_path)
     if not file_path.exists():
         print(f"File not found: {file_path}", file=sys.stderr)
         sys.exit(1)
@@ -41,8 +53,10 @@ async def main():
     from src.indexer import DocumentIndexer
 
     config = get_config()
+    vision_mode = args.vision_mode or config.vision_mode
     print(f"Config: vision_enhancement={config.enable_vision_enhancement}, "
-          f"mode={config.vision_mode}, lancedb={config.lancedb_path}", file=sys.stderr)
+          f"mode={vision_mode}{' (override)' if args.vision_mode else ''}, "
+          f"lancedb={config.lancedb_path}", file=sys.stderr)
 
     # Parser
     parser = DocumentParser(
@@ -56,7 +70,7 @@ async def main():
         vision_model=config.vision_model,
         enable_vision_enhancement=config.enable_vision_enhancement,
         vision_word_threshold=config.vision_word_threshold,
-        vision_mode=config.vision_mode,
+        vision_mode=vision_mode,
     )
 
     # LLM + processor
