@@ -18,12 +18,13 @@ These can be merged into the element list produced by the PDF parser before
 the structure-aware chunker runs, or appended after regular parsing.
 """
 
+import asyncio
 import base64
 import logging
 import os
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import fitz  # PyMuPDF — already in project dependencies
 
@@ -133,6 +134,68 @@ def _call_vision_api(image_bytes: bytes, api_key: str) -> str:
         ],
     )
     return response.content[0].text.strip()
+
+
+async def _call_vision_api_async(image_bytes: bytes, api_key: str) -> str:
+    """Async version of _call_vision_api using AsyncAnthropic."""
+    import anthropic
+
+    client = anthropic.AsyncAnthropic(api_key=api_key)
+    image_b64 = base64.standard_b64encode(image_bytes).decode("ascii")
+
+    response = await client.messages.create(
+        model=_MODEL,
+        max_tokens=_MAX_TOKENS,
+        system=_VISION_SYSTEM_PROMPT,
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image",
+                        "source": {
+                            "type": "base64",
+                            "media_type": "image/jpeg",
+                            "data": image_b64,
+                        },
+                    },
+                    {
+                        "type": "text",
+                        "text": "Describe this slide.",
+                    },
+                ],
+            }
+        ],
+    )
+    return response.content[0].text.strip()
+
+
+async def _process_page_async(
+    sem: asyncio.Semaphore,
+    page_num: int,
+    total: int,
+    image_bytes: bytes,
+    api_key: str,
+) -> Tuple[int, Optional[str]]:
+    """Acquire the semaphore, call the vision API for one page, return (page_num, description).
+
+    Returns (page_num, None) on failure so the caller can skip without aborting the batch.
+    """
+    async with sem:
+        print(
+            f"[VISION] Page {page_num}/{total}: image {len(image_bytes) / 1_048_576:.2f} MB "
+            f"({len(image_bytes):,} bytes) — sending to API …",
+            file=sys.stderr, flush=True,
+        )
+        try:
+            description = await _call_vision_api_async(image_bytes, api_key)
+            return page_num, description
+        except Exception as exc:
+            logger.warning(
+                "[VISION] Page %d: API call failed — %s: %s",
+                page_num, type(exc).__name__, exc,
+            )
+            return page_num, None
 
 
 # ---------------------------------------------------------------------------
@@ -255,6 +318,13 @@ def enhance_pdf(
 
     vision_elements: List[Dict[str, Any]] = []
 
+    # ------------------------------------------------------------------
+    # Pass 1 — rasterise qualifying pages (synchronous; fitz is not
+    # thread/async safe so all page access must stay in this block).
+    # ------------------------------------------------------------------
+    pages_to_process: List[Tuple[int, bytes]] = []  # (page_num, jpeg_bytes)
+    total = 0
+
     try:
         with fitz.open(str(file_path)) as pdf:
             total = len(pdf)
@@ -283,40 +353,76 @@ def enhance_pdf(
                     reason = f"{word_count} words < {word_threshold} threshold"
 
                 print(
-                    f"[VISION] Page {page_num}/{total}: {reason} — calling Claude vision …",
+                    f"[VISION] Page {page_num}/{total}: {reason} — rasterising …",
                     file=sys.stderr, flush=True,
                 )
 
                 try:
                     image_bytes = _rasterise_page(page, dpi=dpi)
-                    print(
-                        f"[VISION] Page {page_num}: image {len(image_bytes) / 1_048_576:.2f} MB "
-                        f"({len(image_bytes):,} bytes) — sending to API …",
-                        file=sys.stderr, flush=True,
-                    )
-                    description = _call_vision_api(image_bytes, resolved_key)
+                    pages_to_process.append((page_num, image_bytes))
                 except Exception as exc:
                     logger.warning(
-                        "[VISION] Page %d: API call failed — %s: %s",
+                        "[VISION] Page %d: rasterisation failed — %s: %s",
                         page_num, type(exc).__name__, exc,
                     )
-                    continue
-
-                new_elements = _split_description(description, page_num)
-                vision_elements.extend(new_elements)
-
-                n_parts = len(new_elements)
-                part_info = f" → {n_parts} sub-chunk(s)" if n_parts > 1 else ""
-                print(
-                    f"[VISION] Page {page_num}: description generated "
-                    f"({len(description):,} chars){part_info}",
-                    file=sys.stderr, flush=True,
-                )
 
     except Exception as exc:
         logger.error(
-            "[VISION] Failed to process %s — %s: %s",
+            "[VISION] Failed to open/rasterise %s — %s: %s",
             file_path.name, type(exc).__name__, exc,
+        )
+        return vision_elements
+
+    if not pages_to_process:
+        return vision_elements
+
+    # ------------------------------------------------------------------
+    # Pass 2 — fire API calls in parallel, capped at 5 concurrent requests.
+    # ------------------------------------------------------------------
+    print(
+        f"[VISION] Dispatching {len(pages_to_process)} page(s) to Claude vision "
+        f"(concurrency=5) …",
+        file=sys.stderr, flush=True,
+    )
+
+    async def _gather_pages() -> List[Tuple[int, Optional[str]]]:
+        sem = asyncio.Semaphore(5)
+        tasks = [
+            _process_page_async(sem, page_num, total, image_bytes, resolved_key)
+            for page_num, image_bytes in pages_to_process
+        ]
+        return await asyncio.gather(*tasks)
+
+    try:
+        results: List[Tuple[int, Optional[str]]] = asyncio.run(_gather_pages())
+    except RuntimeError:
+        # Already inside a running event loop (e.g. Jupyter) — fall back to
+        # nest_asyncio or a thread-based workaround isn't available; re-raise
+        # with a clear message so the caller knows what happened.
+        logger.error(
+            "[VISION] asyncio.run() called from within a running event loop. "
+            "Call enhance_pdf from synchronous code or use nest_asyncio."
+        )
+        raise
+
+    # ------------------------------------------------------------------
+    # Pass 3 — collect results in page order and build element list.
+    # ------------------------------------------------------------------
+    results.sort(key=lambda r: r[0])  # ensure page order regardless of arrival
+
+    for page_num, description in results:
+        if description is None:
+            continue  # already logged in _process_page_async
+
+        new_elements = _split_description(description, page_num)
+        vision_elements.extend(new_elements)
+
+        n_parts = len(new_elements)
+        part_info = f" → {n_parts} sub-chunk(s)" if n_parts > 1 else ""
+        print(
+            f"[VISION] Page {page_num}: description generated "
+            f"({len(description):,} chars){part_info}",
+            file=sys.stderr, flush=True,
         )
 
     logger.info(
