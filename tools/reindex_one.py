@@ -89,7 +89,7 @@ async def main():
     await indexer.initialize()
 
     print(f"\n[1/3] Parsing {file_path.name} …", file=sys.stderr)
-    doc_data = parser.parse_file(file_path)
+    doc_data = await parser.parse_file(file_path)
     print(f"      {doc_data['num_chunks']} chunks, {doc_data['total_chars']:,} chars", file=sys.stderr)
 
     print("[2/3] Processing with LLM …", file=sys.stderr)
