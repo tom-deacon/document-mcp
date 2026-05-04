@@ -64,7 +64,7 @@ class DocumentParser:
     # Public entry point
     # ------------------------------------------------------------------
 
-    def parse_file(self, file_path: Path) -> Dict[str, Any]:
+    async def parse_file(self, file_path: Path) -> Dict[str, Any]:
         """Parse a file and return metadata, full text, and chunks.
 
         Return shape (unchanged from original):
@@ -96,7 +96,7 @@ class DocumentParser:
             logger.info(
                 "    -> [STRUCTURED] Parsing %s as %s", file_path.name, file_type
             )
-            chunks, full_text = self._parse_structured(file_path, file_type, self.max_pages)
+            chunks, full_text = await self._parse_structured(file_path, file_type, self.max_pages)
         else:
             logger.info(
                 "    -> [PLAIN-TEXT] Parsing %s as %s", file_path.name, file_type
@@ -120,7 +120,7 @@ class DocumentParser:
     # Structured pipeline
     # ------------------------------------------------------------------
 
-    def _parse_structured(
+    async def _parse_structured(
         self, file_path: Path, file_type: str, max_pages: Optional[int] = None
     ) -> tuple[List[Dict[str, Any]], str]:
         """Run the structured parser + chunker for the given file type.
@@ -150,7 +150,7 @@ class DocumentParser:
         # Vision enhancement pass — PDF only, when enabled
         if file_type == ".pdf" and self.enable_vision_enhancement:
             from .vision_enhancer import enhance_pdf
-            vision_elements = enhance_pdf(
+            vision_elements = await enhance_pdf(
                 file_path,
                 word_threshold=self.vision_word_threshold,
                 mode=self.vision_mode,

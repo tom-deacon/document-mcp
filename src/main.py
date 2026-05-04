@@ -128,7 +128,7 @@ class DocumentIndexerService:
             logger.info(f"  → [1/3] Parsing document ({file_size_mb:.2f}MB)...")
 
             # Full parse (only for new/modified files)
-            doc_data = self.parser.parse_file(file_path)
+            doc_data = await self.parser.parse_file(file_path)
             logger.info(f"  → [1/3] ✓ Parsed: {doc_data['total_chars']:,} chars, {doc_data['num_chunks']} chunks, {doc_data['total_tokens']:,} tokens")
 
             # Process with LLM

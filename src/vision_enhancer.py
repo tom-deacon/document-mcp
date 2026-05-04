@@ -267,7 +267,7 @@ def _split_description(
 # Public API
 # ---------------------------------------------------------------------------
 
-def enhance_pdf(
+async def enhance_pdf(
     file_path: Path,
     word_threshold: int = 50,
     api_key: Optional[str] = None,
@@ -385,25 +385,12 @@ def enhance_pdf(
         file=sys.stderr, flush=True,
     )
 
-    async def _gather_pages() -> List[Tuple[int, Optional[str]]]:
-        sem = asyncio.Semaphore(5)
-        tasks = [
-            _process_page_async(sem, page_num, total, image_bytes, resolved_key)
-            for page_num, image_bytes in pages_to_process
-        ]
-        return await asyncio.gather(*tasks)
-
-    try:
-        results: List[Tuple[int, Optional[str]]] = asyncio.run(_gather_pages())
-    except RuntimeError:
-        # Already inside a running event loop (e.g. Jupyter) — fall back to
-        # nest_asyncio or a thread-based workaround isn't available; re-raise
-        # with a clear message so the caller knows what happened.
-        logger.error(
-            "[VISION] asyncio.run() called from within a running event loop. "
-            "Call enhance_pdf from synchronous code or use nest_asyncio."
-        )
-        raise
+    sem = asyncio.Semaphore(5)
+    tasks = [
+        _process_page_async(sem, page_num, total, image_bytes, resolved_key)
+        for page_num, image_bytes in pages_to_process
+    ]
+    results: List[Tuple[int, Optional[str]]] = await asyncio.gather(*tasks)
 
     # ------------------------------------------------------------------
     # Pass 3 — collect results in page order and build element list.

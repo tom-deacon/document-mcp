@@ -242,19 +242,22 @@ class DocumentIndexer:
 
             # --- chunk entries ---
             if doc_data["chunks"]:
-                logger.info("    -> Embedding %d chunks...", num_chunks)
+                logger.info("    -> Embedding %d chunks in batch...", num_chunks)
                 chunk_entries: List[Dict] = []
 
+                embed_texts = [
+                    chunk.get("embedding_text") or chunk.get("text", "")
+                    for chunk in doc_data["chunks"]
+                ]
+                chunk_embeddings = await asyncio.get_event_loop().run_in_executor(
+                    self.executor,
+                    lambda: self.embedding_model.encode(
+                        embed_texts, batch_size=32, show_progress_bar=True
+                    ),
+                )
+                logger.info("    -> Batch embedding complete (%d chunks)", num_chunks)
+
                 for i, chunk in enumerate(doc_data["chunks"]):
-                    if (i + 1) % 5 == 0 or i == num_chunks - 1:
-                        logger.info(
-                            "    -> Embedding chunk %d/%d", i + 1, num_chunks
-                        )
-
-                    # Use enriched embedding_text when available; fall back to raw text.
-                    embed_text = chunk.get("embedding_text") or chunk.get("text", "")
-                    chunk_embedding = await self._generate_embedding(embed_text)
-
                     entry: Dict[str, Any] = {
                         "file_path":   file_path,
                         "file_hash":   file_hash,
@@ -264,7 +267,7 @@ class DocumentIndexer:
                         "end_pos":     chunk.get("end_pos", -1),
                         "char_count":  chunk.get("char_count", len(chunk.get("text", ""))),
                         "token_count": chunk.get("token_count", 0),
-                        "embedding":   chunk_embedding.astype(np.float32).tolist(),
+                        "embedding":   chunk_embeddings[i].astype(np.float32).tolist(),
                     }
 
                     # Add structured fields only when the schema supports them

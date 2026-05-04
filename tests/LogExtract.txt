@@ -1,0 +1,715 @@
+2026-05-03T16:58:53.670Z [doc-indexer] [info] Message from client: {"method":"tools/call","params":{"name":"reindex_document","arguments":{"input":{"file_path":"C:\\Users\\Thomas Deacon\\OneDrive\\Documents\\000 Claude\\Archive-MVP\\RTA\\RTA Asset Information Framework-V2.8.pdf"}}},"jsonrpc":"2.0","id":44} { metadata: undefined }
+2026-05-03 20:58:54,431 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2026-05-03 20:58:54,447 - src.parser - INFO -     -> [STRUCTURED] Parsing RTA Asset Information Framework-V2.8.pdf as .pdf
+[PDF] parse_pdf() reached   checking Docling availability
+[PDF] Docling import OK   will attempt Docling path
+[PDF] calling parse_pdf_with_docling() for RTA Asset Information Framework-V2.8.pdf
+[DOCLING] ? importing Docling modules  (RTA Asset Information Framework-V2.8.pdf)
+[DOCLING] ? Docling modules imported OK
+[DOCLING] ? pipeline options built; creating DocumentConverter  
+[DOCLING] ? DocumentConverter created (models loaded)
+[DOCLING] ? calling converter.convert()  pages 1 10 / 158  (batch 1/16)
+2026-05-03 20:58:54,491 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 20:58:54,515 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 20:58:54,516 - docling.document_converter - INFO - Initializing pipeline for StandardPdfPipeline with options hash 80a8a1322ca5ef46817c7adbf875fff6
+2026-05-03 20:58:54,521 - docling.models.stages.ocr.auto_ocr_model - INFO - rapidocr cannot be used because onnxruntime is not installed.
+2026-05-03 20:58:54,521 - docling.utils.accelerator_utils - INFO - Accelerator device: 'cpu'
+2026-05-03 20:58:56,286 - docling.models.stages.ocr.auto_ocr_model - INFO - Auto OCR model selected easyocr.
+2026-05-03 20:58:56,286 - docling.utils.accelerator_utils - INFO - Accelerator device: 'cpu'
+2026-05-03 20:58:57,186 - docling.utils.accelerator_utils - INFO - Accelerator device: 'cpu'
+2026-05-03 20:58:57,927 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 20:59:25,633 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 31.16 sec.
+[DOCLING] ? converter.convert() returned after 31.2s   extracting items
+[DOCLING] ? batch 1/16 done  (98 elements so far)
+2026-05-03 20:59:25,634 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 1/16 done in 31.2s  (98 elements so far)
+[DOCLING] ? calling converter.convert()  pages 11 20 / 158  (batch 2/16)
+2026-05-03 20:59:25,638 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 20:59:25,658 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 20:59:25,658 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 20:59:35,612 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 9.97 sec.
+[DOCLING] ? converter.convert() returned after 10.0s   extracting items
+2026-05-03 20:59:35,614 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 20:59:35,615 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+[DOCLING] ? batch 2/16 done  (259 elements so far)
+2026-05-03 20:59:35,616 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 2/16 done in 10.0s  (259 elements so far)
+[DOCLING] ? calling converter.convert()  pages 21 30 / 158  (batch 3/16)
+2026-05-03 20:59:35,620 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 20:59:35,640 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 20:59:35,641 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 20:59:53,807 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 18.19 sec.
+[DOCLING] ? converter.convert() returned after 18.2s   extracting items
+[DOCLING] ? batch 3/16 done  (373 elements so far)
+2026-05-03 20:59:53,809 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 3/16 done in 18.2s  (373 elements so far)
+[DOCLING] ? calling converter.convert()  pages 31 40 / 158  (batch 4/16)
+2026-05-03 20:59:53,813 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 20:59:53,830 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 20:59:53,831 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:00:19,460 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 25.66 sec.
+[DOCLING] ? converter.convert() returned after 25.7s   extracting items
+[DOCLING] ? batch 4/16 done  (505 elements so far)
+2026-05-03 21:00:19,465 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 4/16 done in 25.7s  (505 elements so far)
+[DOCLING] ? calling converter.convert()  pages 41 50 / 158  (batch 5/16)
+2026-05-03 21:00:19,471 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:00:19,493 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:00:19,493 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:01:01,743 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 42.28 sec.
+[DOCLING] ? converter.convert() returned after 42.3s   extracting items
+2026-05-03 21:01:01,747 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+[DOCLING] ? batch 5/16 done  (601 elements so far)
+2026-05-03 21:01:01,747 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 5/16 done in 42.3s  (601 elements so far)
+[DOCLING] ? calling converter.convert()  pages 51 60 / 158  (batch 6/16)
+2026-05-03 21:01:01,752 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:01:01,773 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:01:01,773 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:01:39,301 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 37.55 sec.
+[DOCLING] ? converter.convert() returned after 37.6s   extracting items
+[DOCLING] ? batch 6/16 done  (718 elements so far)
+2026-05-03 21:01:39,305 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 6/16 done in 37.6s  (718 elements so far)
+[DOCLING] ? calling converter.convert()  pages 61 70 / 158  (batch 7/16)
+2026-05-03 21:01:39,312 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:01:39,336 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:01:39,337 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:02:13,504 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 34.19 sec.
+[DOCLING] ? converter.convert() returned after 34.2s   extracting items
+2026-05-03 21:02:13,507 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:02:13,508 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+[DOCLING] ? batch 7/16 done  (823 elements so far)
+2026-05-03 21:02:13,510 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 7/16 done in 34.2s  (823 elements so far)
+[DOCLING] ? calling converter.convert()  pages 71 80 / 158  (batch 8/16)
+2026-05-03 21:02:13,515 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:02:13,535 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:02:13,535 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03T17:03:27.973Z [doc-indexer] [info] Message from client: {"jsonrpc":"2.0","method":"notifications/cancelled","params":{"requestId":44,"reason":"McpError: MCP error -32001: Request timed out"}} { metadata: undefined }
+2026-05-03 21:03:31,323 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 77.81 sec.
+[DOCLING] ? converter.convert() returned after 77.8s   extracting items
+2026-05-03 21:03:31,329 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:03:31,331 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+[DOCLING] ? batch 8/16 done  (881 elements so far)
+2026-05-03 21:03:31,333 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 8/16 done in 77.8s  (881 elements so far)
+[DOCLING] ? calling converter.convert()  pages 81 90 / 158  (batch 9/16)
+2026-05-03 21:03:31,338 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:03:31,360 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:03:31,360 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:03:43,570 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 12.25 sec.
+[DOCLING] ? converter.convert() returned after 12.2s   extracting items
+2026-05-03 21:03:43,574 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:03:43,576 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+[DOCLING] ? batch 9/16 done  (922 elements so far)
+2026-05-03 21:03:43,576 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 9/16 done in 12.2s  (922 elements so far)
+[DOCLING] ? calling converter.convert()  pages 91 100 / 158  (batch 10/16)
+2026-05-03 21:03:43,581 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:03:43,600 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:03:43,600 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:04:02,692 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 19.11 sec.
+[DOCLING] ? converter.convert() returned after 19.1s   extracting items
+2026-05-03 21:04:02,695 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:02,696 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:02,696 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:02,697 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:02,697 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:02,697 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+[DOCLING] ? batch 10/16 done  (967 elements so far)
+2026-05-03 21:04:02,698 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 10/16 done in 19.1s  (967 elements so far)
+[DOCLING] ? calling converter.convert()  pages 101 110 / 158  (batch 11/16)
+2026-05-03 21:04:02,701 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:04:02,719 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:04:02,719 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:04:35,698 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 33.00 sec.
+[DOCLING] ? converter.convert() returned after 33.0s   extracting items
+2026-05-03 21:04:35,700 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:35,701 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:35,701 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:35,702 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:35,702 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:35,703 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:35,703 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:04:35,704 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+[DOCLING] ? batch 11/16 done  (1022 elements so far)
+2026-05-03 21:04:35,705 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 11/16 done in 33.0s  (1022 elements so far)
+[DOCLING] ? calling converter.convert()  pages 111 120 / 158  (batch 12/16)
+2026-05-03 21:04:35,710 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:04:35,730 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:04:35,730 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:06:20,177 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 104.47 sec.
+[DOCLING] ? converter.convert() returned after 104.5s   extracting items
+2026-05-03 21:06:20,179 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:06:20,180 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:06:20,180 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:06:20,181 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:06:20,182 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:06:20,182 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+[DOCLING] ? batch 12/16 done  (1101 elements so far)
+2026-05-03 21:06:20,183 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 12/16 done in 104.5s  (1101 elements so far)
+[DOCLING] ? calling converter.convert()  pages 121 130 / 158  (batch 13/16)
+2026-05-03 21:06:20,186 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:06:20,203 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:06:20,204 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:07:39,060 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 78.88 sec.
+[DOCLING] ? converter.convert() returned after 78.9s   extracting items
+[DOCLING] ? batch 13/16 done  (1164 elements so far)
+2026-05-03 21:07:39,066 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 13/16 done in 78.9s  (1164 elements so far)
+[DOCLING] ? calling converter.convert()  pages 131 140 / 158  (batch 14/16)
+2026-05-03 21:07:39,069 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:07:39,087 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:07:39,088 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:08:34,948 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 55.89 sec.
+[DOCLING] ? converter.convert() returned after 55.9s   extracting items
+[DOCLING] ? batch 14/16 done  (1218 elements so far)
+2026-05-03 21:08:34,953 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 14/16 done in 55.9s  (1218 elements so far)
+[DOCLING] ? calling converter.convert()  pages 141 150 / 158  (batch 15/16)
+2026-05-03 21:08:34,957 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:08:34,976 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:08:34,976 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:09:29,592 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 54.64 sec.
+[DOCLING] ? converter.convert() returned after 54.6s   extracting items
+[DOCLING] ? batch 15/16 done  (1318 elements so far)
+2026-05-03 21:09:29,597 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 15/16 done in 54.6s  (1318 elements so far)
+[DOCLING] ? calling converter.convert()  pages 151 158 / 158  (batch 16/16)
+2026-05-03 21:09:29,601 - docling.datamodel.document - INFO - detected formats: [<InputFormat.PDF: 'pdf'>]
+2026-05-03 21:09:29,619 - docling.document_converter - INFO - Going to convert document batch...
+2026-05-03 21:09:29,619 - docling.pipeline.base_pipeline - INFO - Processing document RTA Asset Information Framework-V2.8.pdf
+2026-05-03 21:10:39,710 - docling.document_converter - INFO - Finished converting document RTA Asset Information Framework-V2.8.pdf in 70.12 sec.
+[DOCLING] ? converter.convert() returned after 70.1s   extracting items
+2026-05-03 21:10:39,712 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:10:39,713 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:10:39,713 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:10:39,714 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:10:39,714 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+2026-05-03 21:10:39,715 - docling_core.types.doc.document - WARNING - Usage of TableItem.export_to_markdown() without `doc` argument is deprecated.
+[DOCLING] ? batch 16/16 done  (1364 elements so far)
+2026-05-03 21:10:39,715 - src.parsers.pdf_parser - INFO - [PDF] Docling: batch 16/16 done in 70.1s  (1364 elements so far)
+2026-05-03 21:10:39,715 - src.parsers.pdf_parser - INFO - [PDF] Docling complete: 1364 elements across 158 page(s) in 705.2s  (RTA Asset Information Framework-V2.8.pdf)
+2026-05-03 21:10:39,720 - src.parsers.pdf_parser - INFO - [PDF] RTA Asset Information Framework-V2.8.pdf: 1364 total elements   1364 docling, 0 easyocr
+[VISION] Page 1/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 2/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 3/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 4/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 5/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 6/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 7/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 8/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 9/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 10/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 11/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 12/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 13/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 14/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 15/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 16/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 17/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 18/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 19/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 20/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 21/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 22/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 23/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 24/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 25/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 26/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 27/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 28/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 29/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 30/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 31/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 32/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 33/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 34/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 35/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 36/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 37/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 38/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 39/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 40/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 41/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 42/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 43/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 44/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 45/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 46/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 47/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 48/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 49/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 50/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 51/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 52/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 53/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 54/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 55/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 56/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 57/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 58/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 59/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 60/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 61/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 62/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 63/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 64/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 65/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 66/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 67/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 68/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 69/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 70/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 71/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 72/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 73/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 74/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 75/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 76/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 77/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 78/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 79/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 80/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 81/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 82/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 83/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 84/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 85/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 86/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 87/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 88/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 89/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 90/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 91/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 92/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 93/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 94/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 95/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 96/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 97/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 98/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 99/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 100/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 101/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 102/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 103/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 104/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 105/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 106/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 107/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 108/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 109/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 110/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 111/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 112/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 113/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 114/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 115/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 116/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 117/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 118/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 119/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 120/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 121/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 122/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 123/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 124/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 125/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 126/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 127/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 128/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 129/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 130/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 131/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 132/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 133/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 134/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 135/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 136/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 137/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 138/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 139/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 140/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 141/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 142/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 143/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 144/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 145/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 146/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 147/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 148/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 149/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 150/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 151/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 152/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 153/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 154/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 155/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 156/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 157/158: landscape (720x450 pts)   rasterising  
+[VISION] Page 158/158: landscape (720x450 pts)   rasterising  
+[VISION] Dispatching 158 page(s) to Claude vision (concurrency=5)  
+[VISION] Page 1/158: image 0.08 MB (80,340 bytes)   sending to API  
+[VISION] Page 2/158: image 0.01 MB (14,653 bytes)   sending to API  
+[VISION] Page 3/158: image 0.08 MB (87,685 bytes)   sending to API  
+[VISION] Page 4/158: image 0.15 MB (152,080 bytes)   sending to API  
+[VISION] Page 5/158: image 0.08 MB (83,518 bytes)   sending to API  
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Request 44 cancelled - duplicate response suppressed
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: This field is deprecated. Use `generate_page_images=True` and call `TableItem.get_image()` to extract table images from page images.
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+For migrations of users: 
+1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+see https://github.com/pytorch/ao/issues/2259 for more details
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,831 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: ListItem parent must be a list group, creating one on the fly.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,832 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: ListItem parent must be a list group, creating one on the fly.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: ListItem parent must be a list group, creating one on the fly.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,833 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: ListItem parent must be a list group, creating one on the fly.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: ListItem parent must be a list group, creating one on the fly.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: ListItem parent must be a list group, creating one on the fly.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,834 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+2026-05-03 21:10:42,835 - mcp.server.lowlevel.server - INFO - Warning: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+2026-05-03T17:10:42.842Z [doc-indexer] [info] Message from server: {"jsonrpc":"2.0","id":44,"error":{"code":0,"message":"Request cancelled"}} { metadata: undefined }
+2026-05-03T17:17:58.991Z [doc-indexer] [info] Message from client: {"method":"tools/call","params":{"name":"search_documents","arguments":{"input":{"query":"asset information landscape components RTA wide vision","search_type":"chunks","limit":8}}},"jsonrpc":"2.0","id":45} { metadata: undefined }
+2026-05-03 21:17:59,448 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|##########| 1/1 [00:00<00:00, 105.03it/s]
+2026-05-03T17:18:00.572Z [doc-indexer] [info] Message from server: {"jsonrpc":"2.0","id":45,"result":{"content":[{"type":"text","text":"{\"success\":true,\"query\":\"asset information landscape components RTA wide vision\",\"search_type\":\"chunks\",\"total_results\":8,\"results\":{\"C:\\\\Users\\\\Thomas Deacon\\\\OneDri...[4624 chars truncated]...a series of workshops and 1-1 meetings to answer 7 questions:","char_count":336},{"chunk_id":756,"text":"[Vision description of slide 83, part 7 of 7]: **Footnotes** reference Asset Management Strategy 2022–2030 V6.0","char_count":111}]}},"isError":false}} { metadata: undefined }
+2026-05-03T17:18:03.965Z [doc-indexer] [info] Message from client: {"method":"tools/call","params":{"name":"search_documents","arguments":{"input":{"limit":8,"query":"vision description slide 31 part 2 3 4 5 asset information landscape","search_type":"chunks"}}},"jsonrpc":"2.0","id":46} { metadata: undefined }
+2026-05-03 21:18:03,965 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|##########| 1/1 [00:00<00:00, 124.99it/s]
+2026-05-03T17:18:05.036Z [doc-indexer] [info] Message from server: {"jsonrpc":"2.0","id":46,"result":{"content":[{"type":"text","text":"{\"success\":true,\"query\":\"vision description slide 31 part 2 3 4 5 asset information landscape\",\"search_type\":\"chunks\",\"total_results\":8,\"results\":{\"C:\\\\Users\\\\Thomas De...[5456 chars truncated]...ed in order to achieve our ","char_count":686},{"chunk_id":1314,"text":"[Vision description of slide 148, part 5 of 6]: ---","char_count":51},{"chunk_id":907,"text":"[Vision description of slide 102, part 3 of 5]: ---","char_count":51}]}},"isError":false}} { metadata: undefined }
+2026-05-03T17:18:08.204Z [doc-indexer] [info] Message from client: {"method":"tools/call","params":{"name":"search_documents","arguments":{"input":{"limit":8,"query":"roads infrastructure metro tram bus buildings facilities marine asset types agencies sectors","search_type":"chunks"}}},"jsonrpc":"2.0","id":47} { metadata: undefined }
+2026-05-03 21:18:08,388 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]
+Batches: 100%|##########| 1/1 [00:00<00:00, 90.68it/s]
+2026-05-03T17:18:09.505Z [doc-indexer] [info] Message from server: {"jsonrpc":"2.0","id":47,"result":{"content":[{"type":"text","text":"{\"success\":true,\"query\":\"roads infrastructure metro tram bus buildings facilities marine asset types agencies sectors\",\"search_type\":\"chunks\",\"total_results\":8,\"results\":{\"...[10465 chars truncated]...Dev.\n  - Infrastructure Development/management\n\n#### 4. Transport Department (Hong Kong – represented by Hong Kong flag)\n- **5 Key Service Groups**\n- **27 Total Services**\n- Service categories:\n  - Public tran","char_count":637}]}},"isError":false}} { metadata: undefined }
+2026-05-03T17:18:16.692Z [doc-indexer] [info] Message from client: {"method":"tools/call","params":{"name":"get_document_info","arguments":{"input":{"file_path":"C:\\Users\\Thomas Deacon\\OneDrive\\Documents\\000 Claude\\Archive-MVP\\RTA\\RTA Asset Information Framework-V2.8.pdf"}}},"jsonrpc":"2.0","id":48} { metadata: undefined }
+2026-05-03 21:18:17,350 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2026-05-03T17:18:19.563Z [doc-indexer] [info] Message from server: {"jsonrpc":"2.0","id":48,"result":{"content":[{"type":"text","text":"{\"success\":true,\"document\":{\"file_path\":\"C:\\\\Users\\\\Thomas Deacon\\\\OneDrive\\\\Documents\\\\000 Claude\\\\Archive-MVP\\\\RTA\\\\RTA Asset Information Framework-V2.8.pdf\",\"f...[2181 chars truncated]..."Roadmap","Value","Asset Management","Lifecycle Asset Management","Unified Asset Management","Data Strategy","Cloud Transformation","Asset Information"],"total_chunks":1414,"actual_chunks":1414,"total_chars":803832,"total_tokens":141942}},"isError":false}} { metadata: undefined }
+2026-05-03T17:28:24.817Z [doc-indexer] [info] Message from client: {"method":"tools/call","params":{"name":"get_document_info","arguments":{"input":{"file_path":"C:\\Users\\Thomas Deacon\\OneDrive\\Documents\\000 Claude\\Archive-MVP\\RTA\\RTA Asset Information Framework-V2.8.pdf"}}},"jsonrpc":"2.0","id":49} { metadata: undefined }
+2026-05-03 21:28:25,087 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2026-05-03T17:28:26.213Z [doc-indexer] [info] Message from server: {"jsonrpc":"2.0","id":49,"result":{"content":[{"type":"text","text":"{\"success\":true,\"document\":{\"file_path\":\"C:\\\\Users\\\\Thomas Deacon\\\\OneDrive\\\\Documents\\\\000 Claude\\\\Archive-MVP\\\\RTA\\\\RTA Asset Information Framework-V2.8.pdf\",\"f...[2181 chars truncated]..."Roadmap","Value","Asset Management","Lifecycle Asset Management","Unified Asset Management","Data Strategy","Cloud Transformation","Asset Information"],"total_chunks":1414,"actual_chunks":1414,"total_chars":803832,"total_tokens":141942}},"isError":false}} { metadata: undefined }
+2026-05-03T17:35:42.866Z [doc-indexer] [info] Message from client: {"method":"tools/call","params":{"name":"get_document_info","arguments":{"input":{"file_path":"C:\\Users\\Thomas Deacon\\OneDrive\\Documents\\000 Claude\\Archive-MVP\\RTA\\RTA Asset Information Framework-V2.8.pdf"}}},"jsonrpc":"2.0","id":50} { metadata: undefined }
+2026-05-03 21:35:43,427 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2026-05-03T17:35:44.536Z [doc-indexer] [info] Message from server: {"jsonrpc":"2.0","id":50,"result":{"content":[{"type":"text","text":"{\"success\":true,\"document\":{\"file_path\":\"C:\\\\Users\\\\Thomas Deacon\\\\OneDrive\\\\Documents\\\\000 Claude\\\\Archive-MVP\\\\RTA\\\\RTA Asset Information Framework-V2.8.pdf\",\"f...[2181 chars truncated]..."Roadmap","Value","Asset Management","Lifecycle Asset Management","Unified Asset Management","Data Strategy","Cloud Transformation","Asset Information"],"total_chunks":1414,"actual_chunks":1414,"total_chars":803832,"total_tokens":141942}},"isError":false}} { metadata: undefined }

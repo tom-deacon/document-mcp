@@ -1,5 +1,6 @@
 """MCP tool implementations for document indexing."""
 
+import asyncio
 import json
 import logging
 from typing import List, Dict, Any, Optional, Union
@@ -277,13 +278,14 @@ class DocumentTools:
                 }
             
             # Parse document
-            doc_data = self.parser.parse_file(file_path)
+            doc_data = await self.parser.parse_file(file_path)
             
             # Process with LLM
             doc_data = await self.processor.process_document(doc_data)
             
-            # Index document
-            success = await self.indexer.index_document(doc_data)
+            # Shield the write so it completes even if the MCP client cancels
+            # the request mid-flight (e.g. connection timeout after a long parse).
+            success = await asyncio.shield(self.indexer.index_document(doc_data))
             
             if success:
                 return {
